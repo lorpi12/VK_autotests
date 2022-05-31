@@ -108,7 +108,7 @@ public class AddEmployeeHr7Test extends MainTest {
 
     @Step("Шаг №2")
     private void step2_2(String nameFile) {
-        WebChecks.textVisibleOnPage(nameFile, 1);
+        Assert.assertTrue(addEmployeePage.getNameFile().contains(nameFile));
     }
 
 

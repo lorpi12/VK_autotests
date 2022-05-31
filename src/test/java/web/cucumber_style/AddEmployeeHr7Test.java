@@ -13,6 +13,8 @@ import web.MainTest;
 import web.PathOnLogin;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddEmployeeHr7Test extends MainTest {
 
@@ -124,7 +126,8 @@ public class AddEmployeeHr7Test extends MainTest {
 
     private void step2_2(String nameFile) {
         debugWebSteps.stepNumber("2");
-        webCheckWebSteps.waitUntilTextAppearOnPage(nameFile, 1);
+        webActionWebSteps.saveValueField("Фото", "namePhoto");
+        Assert.assertTrue(webActionWebSteps.getValueByKey("namePhoto").contains(nameFile));
     }
 
 

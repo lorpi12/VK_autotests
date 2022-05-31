@@ -66,5 +66,10 @@ public class AddEmployeePage extends WebPage {
         uploadPhoto.uploadFile(new File(path));
     }
 
+    @Step("Получить имя файла")
+    public String getNameFile() {
+        return uploadPhoto.getAttribute("value");
+    }
+
 
 }
