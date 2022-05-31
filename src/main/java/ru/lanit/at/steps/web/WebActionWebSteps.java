@@ -10,6 +10,7 @@ import ru.lanit.at.actions.WebActions;
 import ru.lanit.at.utils.Sleep;
 import ru.lanit.at.utils.web.pagecontext.PageManager;
 
+import java.io.File;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -179,6 +180,23 @@ public class WebActionWebSteps extends AbstractWebSteps {
                 .getElement(select);
         selectField.selectOption(value);
         LOGGER.info("в селекте '{}' введено значение '{}'", select, value);
+    }
+
+    /**
+     * Загрузка файла
+     *
+     * @param elementName наименование элемента
+     * @param path        путь до загружаемого файла
+     */
+
+    @Когда("загрузить файл, расположенный в {string} в поле {string}")
+    public void uploadFile(String elementName, String path) {
+        SelenideElement fieldElement = pageManager
+                .getCurrentPage()
+                .getElement(elementName);
+        fieldElement
+                .uploadFile(new File(path));
+        LOGGER.info("в поле '{}' загружен файл, расположенный в '{}' ", elementName, path);
     }
 
 

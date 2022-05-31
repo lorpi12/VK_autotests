@@ -1,21 +1,22 @@
 package web;
 
 public enum PathOnLogin {
-    admin("src/test/resources/json/authAdmin.json"),
-    project1_admin("src/test/resources/json/authProjectAdmin.json"),
-    hr("src/test/resources/json/authHr.json"),
-    publik("src/test/resources/json/authPublic.json");
+    admin("admin"),
+    project1_admin("project1_admin"),
+    hr("hr"),
+    publik("public");
 
 
-    private final String path;
+    private final String login;
 
-    private PathOnLogin(String path) {
-        this.path = path;
+    private PathOnLogin(String login) {
+        this.login = login;
     }
 
-    public String getPath() {
-        return this.path;
+    public String getLogin() {
+        return this.login;
     }
+
 
 
 }

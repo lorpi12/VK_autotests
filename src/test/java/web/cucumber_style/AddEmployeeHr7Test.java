@@ -29,10 +29,11 @@ public class AddEmployeeHr7Test extends MainTest {
     @BeforeMethod
     public void beforeTest() throws IOException {
         PathOnLogin user = PathOnLogin.hr;
-        windowWebSteps.open("http://178.154.246.238:58082/");
+        System.getProperties().load(ClassLoader.getSystemResourceAsStream("accounts.properties"));
+        windowWebSteps.open(System.getProperty("site.url"));
         windowWebSteps.setPage("Страница авторизации");
-        webActionWebSteps.fillTheField("Логин", readJsonFile(user, "username"));
-        webActionWebSteps.fillTheField("Пароль", readJsonFile(user, "password"));
+        webActionWebSteps.fillTheField("Логин", user.getLogin());
+        webActionWebSteps.fillTheField("Пароль", System.getProperty(user.getLogin()));
         webActionWebSteps.clickOnElement("Чекбокс \"Админские права\"");
         webCheckWebSteps.elementAppearOnThePage("Отп токен");
         webActionWebSteps.fillTheField("Отп токен", getAuthToken(user));
@@ -54,50 +55,76 @@ public class AddEmployeeHr7Test extends MainTest {
 
     @Test(dataProvider = "dataTest1")
     public void test1(String surname, String name, String middleName, String gender, String key) {
-        step1(surname);
-        step2(name);
-        step3(middleName);
-        step4(gender);
-        step5();
-        step6(key);
-        step7(surname, name, key);
+        step1_1(surname);
+        step1_2(name);
+        step1_3(middleName);
+        step1_4(gender);
+        step1_5();
+        step1_6(key);
+        step1_7(surname, name, key);
 
     }
 
-    private void step1(String surname) {
+    private void step1_1(String surname) {
         debugWebSteps.stepNumber("1");
         windowWebSteps.setPage("Добавить Сотрудник");
         webActionWebSteps.fillTheField("Фамилия", surname);
     }
 
-    private void step2(String name) {
+    private void step1_2(String name) {
         debugWebSteps.stepNumber("2");
         webActionWebSteps.fillTheField("Имя", name);
     }
 
-    private void step3(String middleName) {
+    private void step1_3(String middleName) {
         debugWebSteps.stepNumber("3");
         webActionWebSteps.fillTheField("Отчество", middleName);
     }
 
-    private void step4(String gender) {
+    private void step1_4(String gender) {
         debugWebSteps.stepNumber("4");
         webActionWebSteps.fillTheSelect("Пол", gender);
     }
 
-    private void step5() {
+    private void step1_5() {
         debugWebSteps.stepNumber("5");
         webActionWebSteps.clickOnElement("Сохранить");
     }
 
-    private void step6(String key) {
+    private void step1_6(String key) {
         debugWebSteps.stepNumber("6");
         windowWebSteps.setPage("Сотрудники");
         webActionWebSteps.saveTextField("линк успешное добавление сотрудника", key);
     }
 
-    private void step7(String surname, String name, String key) {
+    private void step1_7(String surname, String name, String key) {
         Assert.assertEquals(webActionWebSteps.getValueByKey(key), surname + " " + name, "Значения не равны");
+    }
+
+
+    @DataProvider
+    public Object[][] dataTest2() {
+        return new Object[][]{
+                {"src/test/resources/photoFile/kotik.jpg", "kotik.jpg"}
+        };
+    }
+
+
+    @Test(dataProvider = "dataTest2")
+    public void test2(String path, String nameFile) {
+        step2_1(path);
+        step2_2(nameFile);
+    }
+
+    private void step2_1(String path) {
+        debugWebSteps.stepNumber("1");
+        windowWebSteps.setPage("Добавить Сотрудник");
+        webActionWebSteps.uploadFile("Фото", path);
+    }
+
+    private void step2_2(String nameFile) {
+        debugWebSteps.stepNumber("2");
+        webCheckWebSteps.waitUntilTextAppearOnPage(nameFile, 1);
     }
 
 

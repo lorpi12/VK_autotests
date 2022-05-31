@@ -5,6 +5,8 @@ import io.qameta.allure.Step;
 import ru.lanit.at.utils.web.annotations.Name;
 import ru.lanit.at.utils.web.pagecontext.WebPage;
 
+import java.io.File;
+
 import static com.codeborne.selenide.Selenide.$x;
 
 
@@ -25,6 +27,9 @@ public class AddEmployeePage extends WebPage {
 
     @Name("Сохранить")
     private SelenideElement buttonSave = $x("//input[@name='_save']");
+
+    @Name("Фото")
+    private SelenideElement uploadPhoto = $x("//input[@id='id_photo']");
 
 
     @Step("заполнить поле \"Фамилия\" значением {text} ")
@@ -54,6 +59,11 @@ public class AddEmployeePage extends WebPage {
     @Step("нажать на кнопку \"Сохранить\" ")
     public void clickButtonSave() {
         buttonSave.click();
+    }
+
+    @Step("загрузить фото, расположенное в {path} ")
+    public void uploadFile(String path) {
+        uploadPhoto.uploadFile(new File(path));
     }
 
 

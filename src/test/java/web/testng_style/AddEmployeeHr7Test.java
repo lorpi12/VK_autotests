@@ -5,6 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import ru.lanit.at.actions.WebChecks;
 import ru.lanit.at.pages.AddEmployeePage;
 import ru.lanit.at.pages.AuthPage;
 import ru.lanit.at.pages.EmployeePage;
@@ -25,19 +26,13 @@ public class AddEmployeeHr7Test extends MainTest {
     private final AddEmployeePage addEmployeePage = new AddEmployeePage();
 
 
-    @DataProvider
-    public Object[][] dataTest1() {
-        return new Object[][]{
-                {"surname", "name", "middleName", "Male", "surnameAndName"}
-        };
-    }
-
     @BeforeMethod
     public void beforeTest() throws IOException {
+        System.getProperties().load(ClassLoader.getSystemResourceAsStream("accounts.properties"));
         PathOnLogin user = PathOnLogin.hr;
-        windowWebSteps.open("http://178.154.246.238:58082/");
-        authPage.fillFieldLogin(readJsonFile(user, "username"))
-                .fillFieldPassword(readJsonFile(user, "password"))
+        windowWebSteps.open(System.getProperty("site.url"));
+        authPage.fillFieldLogin(user.getLogin())
+                .fillFieldPassword(System.getProperty(user.getLogin()))
                 .clickOnCheckBoxAdminRules()
                 .searchOtpTokenShouldBeVisible()
                 .fillFieldOtpToken(getAuthToken(user))
@@ -46,44 +41,74 @@ public class AddEmployeeHr7Test extends MainTest {
         employeePage.clickOnButtonAddNewEmployee();
     }
 
+    @DataProvider
+    public Object[][] dataTest1() {
+        return new Object[][]{
+                {"surname", "name", "middleName", "Male", "surnameAndName"}
+        };
+    }
+
     @Test(dataProvider = "dataTest1")
     public void Test1(String surname, String name, String middleName, String gender, String key) {
-        step1(surname);
-        step2(name);
-        step3(middleName);
-        step4(gender);
-        step5();
-        step6(surname, name);
+        step1_1(surname);
+        step1_2(name);
+        step1_3(middleName);
+        step1_4(gender);
+        step1_5();
+        step1_6(surname, name);
     }
 
     @Step("Шаг №1")
-    private void step1(String surname) {
+    private void step1_1(String surname) {
         addEmployeePage.fillSurnameField(surname);
     }
 
     @Step("Шаг №2")
-    private void step2(String name) {
+    private void step1_2(String name) {
         addEmployeePage.fillNameField(name);
     }
 
     @Step("Шаг №3")
-    private void step3(String middleName) {
+    private void step1_3(String middleName) {
         addEmployeePage.fillPatronymicField(middleName);
     }
 
     @Step("Шаг №4")
-    private void step4(String gender) {
+    private void step1_4(String gender) {
         addEmployeePage.fillSelectGender(gender);
     }
 
     @Step("Шаг №5")
-    private void step5() {
+    private void step1_5() {
         addEmployeePage.clickButtonSave();
     }
 
     @Step("Шаг №6")
-    private void step6(String surname, String name) {
+    private void step1_6(String surname, String name) {
         Assert.assertEquals(employeePage.getValueByLink(), surname + " " + name, "Значения не равны");
+    }
+
+    @DataProvider
+    public Object[][] dataTest2() {
+        return new Object[][]{
+                {"src/test/resources/photoFile/kotik.jpg", "kotik.jpg"}
+        };
+    }
+
+    @Test(dataProvider = "dataTest2")
+    public void Test2(String path, String nameFile) {
+        step2_1(path);
+        step2_2(nameFile);
+    }
+
+    @Step("Шаг №1")
+    private void step2_1(String path) {
+        addEmployeePage.uploadFile(path);
+    }
+
+    @Step("Шаг №2")
+    private void step2_2(String nameFile) {
+        WebChecks.textVisibleOnPage(nameFile, 1);
     }
 
 
