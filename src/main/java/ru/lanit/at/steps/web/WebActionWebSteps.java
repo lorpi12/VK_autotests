@@ -126,7 +126,7 @@ public class WebActionWebSteps extends AbstractWebSteps {
      * @param key   - значение
      */
     @Когда("сохранить значение из поля {string} под именем {string}")
-    public void saveTextField(String field, String key) {
+    public void saveValueField(String field, String key) {
         SelenideElement fieldElement = pageManager
                 .getCurrentPage()
                 .getElement(field);
@@ -135,6 +135,25 @@ public class WebActionWebSteps extends AbstractWebSteps {
                 .getValue();
         saveValueInStorage(key, elementValue);
         LOGGER.info("значение '{}' сохранено под именем '{}'", elementValue, key);
+    }
+
+    @Когда("сохранить текст из поля {string} под именем {string}")
+    public void saveTextField(String field, String key) {
+        SelenideElement fieldElement = pageManager
+                .getCurrentPage()
+                .getElement(field);
+        String elementValue = fieldElement
+                .shouldBe(Condition.visible, Duration.ofSeconds(60))
+                .getText();
+        saveValueInStorage(key, elementValue);
+        LOGGER.info("значение '{}' сохранено под именем '{}'", elementValue, key);
+    }
+
+    @Когда("Получить данные по ключу {key}")
+    public String getValueByKey(String key) {
+        String value = String.valueOf(getStorage().get(key));
+        LOGGER.info("значение '{}' получено под ключом '{}'", value, key);
+        return value;
     }
 
 
@@ -151,4 +170,16 @@ public class WebActionWebSteps extends AbstractWebSteps {
                 .shouldBe(Condition.visible)
                 .clear();
     }
+
+    @Когда("выбрать в селекте {string} значение {string}")
+    public void fillTheSelect(String select, String value) {
+        value = replaceVars(value, getStorage());
+        SelenideElement selectField = pageManager
+                .getCurrentPage()
+                .getElement(select);
+        selectField.selectOption(value);
+        LOGGER.info("в селекте '{}' введено значение '{}'", select, value);
+    }
+
+
 }

@@ -7,6 +7,7 @@ import ru.lanit.at.steps.web.WebActionWebSteps;
 import ru.lanit.at.steps.web.WebCheckWebSteps;
 import ru.lanit.at.steps.web.WindowWebSteps;
 import ru.lanit.at.utils.web.pagecontext.PageManager;
+import web.MainTest;
 
 public class ExampleTest {
     /* Для осуществления поиска элементов в контексте конкртеной страницы */
@@ -26,7 +27,7 @@ public class ExampleTest {
 
     private void step1() {
         debugWebSteps.stepNumber("1");
-        windowWebSteps.open("https://www.google.ru/");
+        windowWebSteps.open("http://178.154.246.238:58082/");
         windowWebSteps.setPage("Google");
         webActionWebSteps.fillTheField("поле поиска", "Погода в Москве");
         webCheckWebSteps.textVisibleOnPage("Погода в Ижевске");
