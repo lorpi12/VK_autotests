@@ -77,4 +77,11 @@ public class ApiSteps {
             LOG.info("Сравнение значений: {} {} {}", expect, it.get(1), actual);
         });
     }
+
+    @И("добавить авторизацию в хедер")
+    public void addAuthorisation() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "token " + ContextHolder.getValue("token"));
+        apiRequest.setHeaders(headers);
+    }
 }
