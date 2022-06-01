@@ -7,6 +7,7 @@ import ru.lanit.at.steps.web.WebActionWebSteps;
 import ru.lanit.at.steps.web.WebCheckWebSteps;
 import ru.lanit.at.steps.web.WindowWebSteps;
 import ru.lanit.at.utils.web.pagecontext.PageManager;
+import web.MainTest;
 
 public class ExampleTest {
     /* Для осуществления поиска элементов в контексте конкртеной страницы */
