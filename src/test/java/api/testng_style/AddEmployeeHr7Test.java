@@ -6,12 +6,13 @@ import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import web.MainTest;
 import web.PathOnLogin;
 
+import java.io.File;
 import java.io.IOException;
 
 import static io.restassured.RestAssured.given;
@@ -56,6 +57,7 @@ public class AddEmployeeHr7Test {
                 .when()
                 .get("/api/accounts/")
                 .then()
-                .statusCode(200);
+                .statusCode(200)
+                .body(JsonSchemaValidator.matchesJsonSchema(new File("src/test/resources/jsonShema/shema.json")));
     }
 }
