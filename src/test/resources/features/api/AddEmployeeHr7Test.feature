@@ -13,7 +13,7 @@
       | Content-Type | application/json |
       | accept       | application/json |
     * отправить запрос
-    * статус код 200
+    * статус код 201
     * извлечь данные
       | token | $.token |
 
