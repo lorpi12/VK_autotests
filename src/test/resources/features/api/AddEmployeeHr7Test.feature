@@ -7,8 +7,8 @@
 
     #Авторизация
     * создать запрос
-      | method | path    | body           |
-      | POST   | /login/ | authAdmin.json |
+      | method | url                                     | body           |
+      | POST   | http://178.154.246.238:58082/api/login/ | authAdmin.json |
     * добавить header
       | Content-Type | application/json |
       | accept       | application/json |
@@ -19,8 +19,8 @@
 
     #Запрос
     * создать запрос
-      | method | path       |
-      | GET    | /accounts/ |
+      | method | url                                        |
+      | GET    | http://178.154.246.238:58082/api/accounts/ |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер

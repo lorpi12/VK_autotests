@@ -16,8 +16,8 @@ public class AddEmployeeHr7Test {
     private final ApiSteps apiSteps = new ApiSteps();
 
     @BeforeMethod
-    public void authorization(){
-        RequestModel requestModel = new RequestModel("POST", "authAdmin.json", "/login", null);
+    public void authorization() {
+        RequestModel requestModel = new RequestModel("POST", "authAdmin.json", null, "http://178.154.246.238:58082/api/login");
         apiSteps.createRequest(requestModel);
         DataTable dataTable = DataTable.create(
                 Arrays.asList(
@@ -34,7 +34,7 @@ public class AddEmployeeHr7Test {
 
     @Test
     public void test() {
-        RequestModel requestModel = new RequestModel("GET", null, "/accounts/", null);
+        RequestModel requestModel = new RequestModel("GET", null, null, "http://178.154.246.238:58082/api/accounts/");
         apiSteps.createRequest(requestModel);
         DataTable.TableConverter tableConverter;
         DataTable dataTable = DataTable.create(Arrays.asList(
