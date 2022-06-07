@@ -150,7 +150,7 @@ public class WebActionWebSteps extends AbstractWebSteps {
         LOGGER.info("значение '{}' сохранено под именем '{}'", elementValue, key);
     }
 
-    @Когда("Получить данные по ключу {key}")
+    @Когда("Получить данные по ключу {string}")
     public String getValueByKey(String key) {
         String value = String.valueOf(getStorage().get(key));
         LOGGER.info("значение '{}' получено под ключом '{}'", value, key);

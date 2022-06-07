@@ -87,29 +87,29 @@ public class AddEmployeeHr7Test extends MainTest {
     private void step1_6(String surname, String name) {
         Assert.assertEquals(employeePage.getValueByLink(), surname + " " + name, "Значения не равны");
     }
-
-    @DataProvider
-    public Object[][] dataTest2() {
-        return new Object[][]{
-                {"src/test/resources/photoFile/kotik.jpg", "kotik.jpg"}
-        };
-    }
-
-    @Test(dataProvider = "dataTest2")
-    public void Test2(String path, String nameFile) {
-        step2_1(path);
-        step2_2(nameFile);
-    }
-
-    @Step("Шаг №1")
-    private void step2_1(String path) {
-        addEmployeePage.uploadFile(path);
-    }
-
-    @Step("Шаг №2")
-    private void step2_2(String nameFile) {
-        Assert.assertTrue(addEmployeePage.getNameFile().contains(nameFile));
-    }
+//
+//    @DataProvider
+//    public Object[][] dataTest2() {
+//        return new Object[][]{
+//                {"src/test/resources/photoFile/kotik.jpg", "kotik.jpg"}
+//        };
+//    }
+//
+//    @Test(dataProvider = "dataTest2")
+//    public void Test2(String path, String nameFile) {
+//        step2_1(path);
+//        step2_2(nameFile);
+//    }
+//
+//    @Step("Шаг №1")
+//    private void step2_1(String path) {
+//        addEmployeePage.uploadFile(path);
+//    }
+//
+//    @Step("Шаг №2")
+//    private void step2_2(String nameFile) {
+//        Assert.assertTrue(addEmployeePage.getNameFile().contains(nameFile));
+//    }
 
 
 }

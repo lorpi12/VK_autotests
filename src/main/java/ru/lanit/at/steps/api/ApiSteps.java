@@ -1,6 +1,11 @@
 package ru.lanit.at.steps.api;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.main.JsonSchema;
+import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.ru.И;
 import io.qameta.allure.Allure;
@@ -13,6 +18,8 @@ import ru.lanit.at.utils.CompareUtil;
 import ru.lanit.at.utils.ContextHolder;
 import ru.lanit.at.utils.VariableUtil;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,5 +83,23 @@ public class ApiSteps {
             Allure.addAttachment(expect, "application/json", expect + it.get(1) + actual, ".txt");
             LOG.info("Сравнение значений: {} {} {}", expect, it.get(1), actual);
         });
+    }
+
+    @И("добавить авторизацию в хедер")
+    public void addAuthorisation() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "token " + ContextHolder.getValue("token"));
+        apiRequest.setHeaders(headers);
+    }
+
+    @И("проверка соответствия запроса схеме в {string}")
+    public void checkShema(String pathShema) throws ProcessingException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.convertValue(apiRequest.getResponse().body().jsonPath().get(), JsonNode.class);
+        JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
+        JsonSchema schema = factory.getJsonSchema(mapper.readTree(new File(pathShema)));
+        Assert.assertTrue(schema.validate(node).isSuccess());
+        LOG.info("Запрос соответствует схеме: {}", pathShema);
+
     }
 }
