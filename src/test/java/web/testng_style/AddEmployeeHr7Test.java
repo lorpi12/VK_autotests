@@ -5,6 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import ru.lanit.at.Sql.PostgreSql;
 import ru.lanit.at.actions.WebChecks;
 import ru.lanit.at.pages.AddEmployeePage;
 import ru.lanit.at.pages.AuthPage;
@@ -15,6 +16,8 @@ import web.MainTest;
 import web.PathOnLogin;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AddEmployeeHr7Test extends MainTest {
 
@@ -44,18 +47,19 @@ public class AddEmployeeHr7Test extends MainTest {
     @DataProvider
     public Object[][] dataTest1() {
         return new Object[][]{
-                {"surname", "name", "middleName", "Male", "surnameAndName"}
+                {"surname3", "name3", "middleName3", "Male", "surnameAndName"}
         };
     }
 
     @Test(dataProvider = "dataTest1")
-    public void Test1(String surname, String name, String middleName, String gender, String key) {
+    public void Test1(String surname, String name, String middleName, String gender, String key) throws SQLException {
         step1_1(surname);
         step1_2(name);
         step1_3(middleName);
         step1_4(gender);
         step1_5();
         step1_6(surname, name);
+        step1_7(name, surname, middleName, gender);
     }
 
     @Step("Шаг №1")
@@ -86,6 +90,17 @@ public class AddEmployeeHr7Test extends MainTest {
     @Step("Шаг №6")
     private void step1_6(String surname, String name) {
         Assert.assertEquals(employeePage.getValueByLink(), surname + " " + name, "Значения не равны");
+    }
+
+    @Step("Шаг №7")
+    private void step1_7(String name, String surname, String middleName, String gender) throws SQLException {
+        ResultSet resultSet = PostgreSql.getInstance().selectTableSql("SELECT name,surname,patronymic,gender from core_employee ce where ce.name ='" + name + "' and ce.surname ='" + surname +
+                "' and ce.patronymic ='" + middleName + "'");
+        Assert.assertTrue(resultSet.next());
+        Assert.assertEquals(resultSet.getString("name"), name);
+        Assert.assertEquals(resultSet.getString("surname"), surname);
+        Assert.assertEquals(resultSet.getString("patronymic"), middleName);
+        Assert.assertEquals(resultSet.getString("gender"), "м");
     }
 //
 //    @DataProvider

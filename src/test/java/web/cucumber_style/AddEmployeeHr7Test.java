@@ -50,7 +50,7 @@ public class AddEmployeeHr7Test extends MainTest {
     @DataProvider
     public Object[][] dataTest1() {
         return new Object[][]{
-                {"surname", "name", "middleName", "Male", "surnameAndName"}
+                {"surname1", "name1", "middleName1", "Male", "surnameAndName"}
         };
     }
 
@@ -104,31 +104,31 @@ public class AddEmployeeHr7Test extends MainTest {
     }
 
 
-    @DataProvider
-    public Object[][] dataTest2() {
-        return new Object[][]{
-                {"src/test/resources/photoFile/kotik.jpg", "kotik.jpg"}
-        };
-    }
-
-
-    @Test(dataProvider = "dataTest2")
-    public void test2(String path, String nameFile) {
-        step2_1(path);
-        step2_2(nameFile);
-    }
-
-    private void step2_1(String path) {
-        debugWebSteps.stepNumber("1");
-        windowWebSteps.setPage("Добавить Сотрудник");
-        webActionWebSteps.uploadFile("Фото", path);
-    }
-
-    private void step2_2(String nameFile) {
-        debugWebSteps.stepNumber("2");
-        webActionWebSteps.saveValueField("Фото", "namePhoto");
-        Assert.assertTrue(webActionWebSteps.getValueByKey("namePhoto").contains(nameFile));
-    }
+//    @DataProvider
+//    public Object[][] dataTest2() {
+//        return new Object[][]{
+//                {"src/test/resources/photoFile/kotik.jpg", "kotik.jpg"}
+//        };
+//    }
+//
+//
+//    @Test(dataProvider = "dataTest2")
+//    public void test2(String path, String nameFile) {
+//        step2_1(path);
+//        step2_2(nameFile);
+//    }
+//
+//    private void step2_1(String path) {
+//        debugWebSteps.stepNumber("1");
+//        windowWebSteps.setPage("Добавить Сотрудник");
+//        webActionWebSteps.uploadFile("Фото", path);
+//    }
+//
+//    private void step2_2(String nameFile) {
+//        debugWebSteps.stepNumber("2");
+//        webActionWebSteps.saveValueField("Фото", "namePhoto");
+//        Assert.assertTrue(webActionWebSteps.getValueByKey("namePhoto").contains(nameFile));
+//    }
 
 
 }
