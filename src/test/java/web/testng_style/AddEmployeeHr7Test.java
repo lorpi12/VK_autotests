@@ -2,11 +2,8 @@ package web.testng_style;
 
 import io.qameta.allure.Step;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import ru.lanit.at.Sql.PostgreSql;
-import ru.lanit.at.actions.WebChecks;
 import ru.lanit.at.pages.AddEmployeePage;
 import ru.lanit.at.pages.AuthPage;
 import ru.lanit.at.pages.EmployeePage;
@@ -18,6 +15,10 @@ import web.PathOnLogin;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class AddEmployeeHr7Test extends MainTest {
 
@@ -29,8 +30,8 @@ public class AddEmployeeHr7Test extends MainTest {
     private final AddEmployeePage addEmployeePage = new AddEmployeePage();
 
 
-    @BeforeMethod
-    public void beforeTest() throws IOException {
+    @BeforeClass
+    public void beforeClass() throws IOException {
         System.getProperties().load(ClassLoader.getSystemResourceAsStream("accounts.properties"));
         PathOnLogin user = PathOnLogin.hr;
         windowWebSteps.open(System.getProperty("site.url"));
@@ -42,6 +43,18 @@ public class AddEmployeeHr7Test extends MainTest {
                 .clickOnButtonSignIn();
         mainPage.clickOnLinkEmployees();
         employeePage.clickOnButtonAddNewEmployee();
+    }
+
+    @AfterMethod
+    public void afterTest() {
+        windowWebSteps.open(System.getProperty("site.url"));
+        mainPage.clickOnLinkEmployees();
+        employeePage.clickOnButtonAddNewEmployee();
+    }
+
+    @AfterClass
+    public void afterClass() {
+        windowWebSteps.closeDriver();
     }
 
     @DataProvider
@@ -102,29 +115,67 @@ public class AddEmployeeHr7Test extends MainTest {
         Assert.assertEquals(resultSet.getString("patronymic"), middleName);
         Assert.assertEquals(resultSet.getString("gender"), "м");
     }
-//
-//    @DataProvider
-//    public Object[][] dataTest2() {
-//        return new Object[][]{
-//                {"src/test/resources/photoFile/kotik.jpg", "kotik.jpg"}
-//        };
-//    }
-//
-//    @Test(dataProvider = "dataTest2")
-//    public void Test2(String path, String nameFile) {
-//        step2_1(path);
-//        step2_2(nameFile);
-//    }
-//
-//    @Step("Шаг №1")
-//    private void step2_1(String path) {
-//        addEmployeePage.uploadFile(path);
-//    }
-//
-//    @Step("Шаг №2")
-//    private void step2_2(String nameFile) {
-//        Assert.assertTrue(addEmployeePage.getNameFile().contains(nameFile));
-//    }
+
+    @DataProvider
+    public Object[][] dataTest2() {
+        return new Object[][]{
+                {"src/test/resources/photoFile/kotik.jpg", "kotik.jpg"}
+        };
+    }
+
+    @Test(dataProvider = "dataTest2")
+    public void Test2(String path, String nameFile) {
+        step2_1(path);
+        step2_2(nameFile);
+    }
+
+    @Step("Шаг №1")
+    private void step2_1(String path) {
+        addEmployeePage.uploadFile(path);
+    }
+
+    @Step("Шаг №2")
+    private void step2_2(String nameFile) {
+        Assert.assertTrue(addEmployeePage.getNameFile().contains(nameFile));
+    }
+
+    @DataProvider
+    public Object[][] dataTest3() {
+        return new Object[][]{
+                {new GregorianCalendar(2017, Calendar.JANUARY, 25)}
+        };
+    }
+
+    @Test(dataProvider = "dataTest3")
+    public void Test3(Calendar calendar) throws ParseException {
+        step3_1();
+        step3_2(calendar);
+        step3_3(calendar);
+    }
+
+    @Step("Шаг №1")
+    private void step3_1() {
+        addEmployeePage.clickCalendarModule();
+    }
+
+    @Step("Шаг №2")
+    private void step3_2(Calendar calendar) throws ParseException {
+        addEmployeePage.fillCalendar(calendar);
+        Calendar cal = Calendar.getInstance();
+        String data = addEmployeePage.getJoiningDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        cal.setTime(sdf.parse(data));
+        Assert.assertEquals(cal.compareTo(calendar), 0);
+    }
+
+    @Step("Шаг №3")
+    private void step3_3(Calendar calendar) throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        cal.setTime(sdf.parse(addEmployeePage.getJoiningDate()));
+        Assert.assertEquals(cal.compareTo(calendar), 0);
+    }
+
 
 
 }
