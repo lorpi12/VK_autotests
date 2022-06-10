@@ -52,12 +52,6 @@ public class AddEmployeePage extends WebPage {
     @Name("Дата приема на работу")
     private SelenideElement joiningDate = $x("//input[@id='id_joining_date']");
 
-    @Name("Дата приема на работу \"Cегодня\"")
-    private SelenideElement todayDate = $x("//div[@class='fieldBox field-joining_date']//a[text()='Сегодня']");
-
-    @Name("Телефон")
-    private SelenideElement phone = $x("//input[@id='id_phone']");
-
 
     @Step("заполнить поле \"Фамилия\" значением {text} ")
     public AddEmployeePage fillSurnameField(String text) {
@@ -127,30 +121,7 @@ public class AddEmployeePage extends WebPage {
         calendar.$x(".//a[text()='" + data.get(Calendar.DAY_OF_MONTH) + "']").click();
     }
 
-    @Step("Очистить поле \"Дата приема на работу\" ")
-    public void clearJoiningDate() {
-        joiningDate.clear();
-    }
 
-    @Step("Заполнить поле \"Дата приема на работу\" ")
-    public void fillJoiningDate(String data) {
-        joiningDate.sendKeys(data);
-    }
-
-    @Step("Нажать на кнопку \"Cегодня\"")
-    public void clickTodayDate() {
-        todayDate.click();
-    }
-
-    @Step("Заполнить поле \"Телефон\"")
-    public void fillPhone(String number) {
-        phone.sendKeys(number);
-    }
-
-    @Step("Получить значение с поля \"Телефон\"")
-    public String getPhone() {
-       return phone.getAttribute("value");
-    }
 
     @Step
     public String getJoiningDate() {
