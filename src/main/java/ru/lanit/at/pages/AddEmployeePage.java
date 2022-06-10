@@ -1,11 +1,17 @@
 package ru.lanit.at.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.cucumber.java.mn.Харин;
 import io.qameta.allure.Step;
 import ru.lanit.at.utils.web.annotations.Name;
 import ru.lanit.at.utils.web.pagecontext.WebPage;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -30,6 +36,21 @@ public class AddEmployeePage extends WebPage {
 
     @Name("Фото")
     private SelenideElement uploadPhoto = $x("//input[@id='id_photo']");
+
+    @Name("Календарь")
+    private SelenideElement calendar = $x("//div[@id='calendarbox0']");
+
+    @Name("Прибавить дату в календаре")
+    private SelenideElement calendarUp = $x("//div[@id='calendarbox0']//a[@class='calendarnav-next']");
+
+    @Name("Убавить дату в календаре")
+    private SelenideElement calendarDown = $x("//div[@id='calendarbox0']//a[@class='calendarnav-previous']");
+
+    @Name("Модуль календаря")
+    private SelenideElement calendarModule = $x("//a[@id='calendarlink0']/span[@class='date-icon']");
+
+    @Name("Дата приема на работу")
+    private SelenideElement joiningDate = $x("//input[@id='id_joining_date']");
 
 
     @Step("заполнить поле \"Фамилия\" значением {text} ")
@@ -69,6 +90,42 @@ public class AddEmployeePage extends WebPage {
     @Step("Получить имя файла")
     public String getNameFile() {
         return uploadPhoto.getAttribute("value");
+    }
+
+    @Step("Получить имя файла")
+    public void clickCalendarModule() {
+        calendarModule.click();
+    }
+
+    @Step("Заполнение модуля календаря")
+    public void fillCalendar(Calendar data) throws ParseException {
+        Locale rus = new Locale("ru", "RU");
+        Calendar cal = Calendar.getInstance();
+        do {
+            String yearAndMonth = calendar.$x(".//caption").getText().toLowerCase(rus).trim();
+
+            int year = Integer.parseInt(yearAndMonth.substring(yearAndMonth.indexOf(" ") + 1));
+            String month = yearAndMonth.substring(0, yearAndMonth.indexOf(" ")).toLowerCase(rus);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("MMMM", rus);
+            cal.setTime(sdf.parse(month));
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.DAY_OF_MONTH, data.get(Calendar.DAY_OF_MONTH));
+
+            if (data.compareTo(cal) == 1) {
+                calendarUp.click();
+            } else if (data.compareTo(cal) == -1) calendarDown.click();
+        }
+        while (data.compareTo(cal) != 0);
+
+        calendar.$x(".//a[text()='" + data.get(Calendar.DAY_OF_MONTH) + "']").click();
+    }
+
+
+
+    @Step
+    public String getJoiningDate() {
+        return joiningDate.getAttribute("value");
     }
 
 
