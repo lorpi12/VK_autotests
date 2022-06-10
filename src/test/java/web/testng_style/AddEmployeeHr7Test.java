@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class AddEmployeeHr7Test extends MainTest {
@@ -162,9 +163,9 @@ public class AddEmployeeHr7Test extends MainTest {
     private void step3_2(Calendar calendar) throws ParseException {
         addEmployeePage.fillCalendar(calendar);
         Calendar cal = Calendar.getInstance();
-        String data = addEmployeePage.getJoiningDate();
+        String date = addEmployeePage.getJoiningDate();
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        cal.setTime(sdf.parse(data));
+        cal.setTime(sdf.parse(date));
         Assert.assertEquals(cal.compareTo(calendar), 0);
     }
 
@@ -176,6 +177,82 @@ public class AddEmployeeHr7Test extends MainTest {
         Assert.assertEquals(cal.compareTo(calendar), 0);
     }
 
+    @DataProvider
+    public Object[][] dataTest4() {
+        return new Object[][]{
+                {"20.07.2016"}
+        };
+    }
+
+    @Test(dataProvider = "dataTest4")
+    public void Test4(String date) {
+        step4_1();
+        step4_2(date);
+
+
+    }
+
+    @Step("Шаг №1")
+    private void step4_1() {
+        addEmployeePage.clearJoiningDate();
+    }
+
+    @Step("Шаг №2")
+    private void step4_2(String date) {
+        addEmployeePage.fillJoiningDate(date);
+        Assert.assertEquals(addEmployeePage.getJoiningDate(), date);
+    }
+
+    @DataProvider
+    public Object[][] dataTest5() {
+        return new Object[][]{
+                {new Date()}
+        };
+    }
+
+    @Test(dataProvider = "dataTest5")
+    public void Test5(Date date) {
+        step5_1();
+        step5_2();
+        step5_3(date);
+
+
+    }
+
+    @Step("Шаг №1")
+    private void step5_1() {
+        addEmployeePage.clearJoiningDate();
+    }
+
+    @Step("Шаг №2")
+    private void step5_2() {
+        addEmployeePage.clickTodayDate();
+    }
+
+    @Step("Шаг №3")
+    private void step5_3(Date date) {
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
+        String dateNow = formatForDateNow.format(date);
+        Assert.assertEquals(addEmployeePage.getJoiningDate(), dateNow);
+    }
+
+    @DataProvider
+    public Object[][] dataTest6() {
+        return new Object[][]{
+                {"+79000000000"}
+        };
+    }
+
+    @Test(dataProvider = "dataTest6")
+    public void Test6(String number) {
+        step6_1(number);
+    }
+
+    @Step("Шаг №1")
+    private void step6_1(String number) {
+        addEmployeePage.fillPhone(number);
+        Assert.assertEquals(addEmployeePage.getPhone(), number);
+    }
 
 
 }
