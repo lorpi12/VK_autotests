@@ -8,6 +8,7 @@ import ru.lanit.at.pages.AddEmployeePage;
 import ru.lanit.at.pages.AuthPage;
 import ru.lanit.at.pages.EmployeePage;
 import ru.lanit.at.pages.MainPage;
+import ru.lanit.at.steps.web.WebCheckWebSteps;
 import ru.lanit.at.steps.web.WindowWebSteps;
 import web.MainTest;
 import web.PathOnLogin;
@@ -156,17 +157,12 @@ public class AddEmployeeHr7Test extends MainTest {
 
     @Step("Шаг №1")
     private void step3_1() {
-        addEmployeePage.clickCalendarModule();
+        addEmployeePage.clickCalendarModuleJoiningDate();
     }
 
     @Step("Шаг №2")
     private void step3_2(Calendar calendar) throws ParseException {
-        addEmployeePage.fillCalendar(calendar);
-        Calendar cal = Calendar.getInstance();
-        String date = addEmployeePage.getJoiningDate();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        cal.setTime(sdf.parse(date));
-        Assert.assertEquals(cal.compareTo(calendar), 0);
+        addEmployeePage.fillCalendarJoiningDate(calendar);
     }
 
     @Step("Шаг №3")
@@ -226,7 +222,7 @@ public class AddEmployeeHr7Test extends MainTest {
 
     @Step("Шаг №2")
     private void step5_2() {
-        addEmployeePage.clickTodayDate();
+        addEmployeePage.clickTodayDateJoiningDate();
     }
 
     @Step("Шаг №3")
@@ -252,6 +248,116 @@ public class AddEmployeeHr7Test extends MainTest {
     private void step6_1(String number) {
         addEmployeePage.fillPhone(number);
         Assert.assertEquals(addEmployeePage.getPhone(), number);
+    }
+
+    @Test(dataProvider = "dataTest3")
+    public void Test7(Calendar calendar) throws ParseException {
+        step7_1();
+        step7_2(calendar);
+        step7_3(calendar);
+    }
+
+    @Step("Шаг №1")
+    private void step7_1() {
+        addEmployeePage.clickCalendarModuleBirthday();
+    }
+
+    @Step("Шаг №2")
+    private void step7_2(Calendar calendar) throws ParseException {
+        addEmployeePage.fillCalendarBirthday(calendar);
+    }
+
+    @Step("Шаг №3")
+    private void step7_3(Calendar calendar) throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        cal.setTime(sdf.parse(addEmployeePage.getBirthday()));
+        Assert.assertEquals(cal.compareTo(calendar), 0);
+    }
+
+    @Test(dataProvider = "dataTest4")
+    public void Test8(String date) {
+        step8_1();
+        step8_2(date);
+
+
+    }
+
+    @Step("Шаг №1")
+    private void step8_1() {
+        addEmployeePage.clearBirthday();
+    }
+
+    @Step("Шаг №2")
+    private void step8_2(String date) {
+        addEmployeePage.fillBirthday(date);
+        Assert.assertEquals(addEmployeePage.getBirthday(), date);
+    }
+
+    @Test(dataProvider = "dataTest5")
+    public void Test9(Date date) {
+        step9_1();
+        step9_2();
+        step9_3(date);
+    }
+
+    @Step("Шаг №1")
+    private void step9_1() {
+        addEmployeePage.clearBirthday();
+    }
+
+    @Step("Шаг №2")
+    private void step9_2() {
+        addEmployeePage.clickTodayDateBirthday();
+    }
+
+    @Step("Шаг №3")
+    private void step9_3(Date date) {
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
+        String dateNow = formatForDateNow.format(date);
+        Assert.assertEquals(addEmployeePage.getBirthday(), dateNow);
+    }
+
+    @DataProvider
+    public Object[][] dataTest10() {
+        return new Object[][]{
+                {1}
+        };
+    }
+
+    @Test(dataProvider = "dataTest10")
+    public void Test10(int citizenship) {
+        step10_1();
+        step10_2();
+        step10_3(citizenship);
+        step10_4();
+        step10_5();
+    }
+
+    @Step("Шаг №1")
+    private void step10_1() {
+        addEmployeePage.checkNotActiveEditSelectedObject();
+    }
+
+    @Step("Шаг №2")
+    private void step10_2() {
+        addEmployeePage.checkNotActiveDeleteSelectedObject();
+    }
+
+    @Step("Шаг №3")
+    private void step10_3(int citizenship) {
+        addEmployeePage.fillCitizenship(citizenship);
+        Assert.assertEquals(addEmployeePage.getCitizenship(), String.valueOf(citizenship));
+    }
+
+    @Step("Шаг №4")
+    private void step10_4() {
+        addEmployeePage.checkActiveEditSelectedObject();
+    }
+
+    @Step("Шаг №5")
+    private void step10_5() {
+        addEmployeePage.checkActiveDeleteSelectedObject();
     }
 
 
