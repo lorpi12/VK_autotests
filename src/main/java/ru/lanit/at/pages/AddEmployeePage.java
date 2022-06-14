@@ -156,15 +156,6 @@ public class AddEmployeePage extends WebPage {
         return joiningDate.getAttribute("value");
     }
 
-    @Step("Заполнить поле \"Телефон\"")
-    public void fillPhone2r(String number) {
-        phone.sendKeys(number);
-    }
-
-    @Step("Заполнить поле \"Телефон\"")
-    public void fillPhone3(String number) {
-        phone.sendKeys(number);
-    }
 
 
 
