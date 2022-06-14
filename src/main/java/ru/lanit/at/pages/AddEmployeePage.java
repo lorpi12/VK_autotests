@@ -156,5 +156,15 @@ public class AddEmployeePage extends WebPage {
         return joiningDate.getAttribute("value");
     }
 
+    @Step("Получить значение с поля \"Телефон\"")
+    public String phone() {
+        return phone.getAttribute("value");
+    }
+
+    @Step("Получить значение с поля \"Телефон\"")
+    public String gets() {
+        return phone.getAttribute("value");
+    }
+
 
 }
