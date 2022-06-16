@@ -84,6 +84,23 @@ public class AddEmployeePage extends WebPage {
     @Name("Поле \"Гражданство\"")
     private SelenideElement citizenship = $x("//select[@id='id_citizenship']");
 
+    @Name("Поле \"Гражданство\" кнопка \"Добавить еще один объект\"")
+    private SelenideElement citizenshipAddObject = $x("//a[@id='add_id_citizenship']");
+
+    @Name("Окно \"Добавить гражданство\" поле \"Name\"")
+    private SelenideElement addCitizenshipName = $x("//input[@id='id_name']");
+
+    @Name("Окно \"Добавить гражданство\" кнопка \"Сохранить\"")
+    private SelenideElement addCitizenshipSave = $x("//input[@name='_save']");
+
+    @Name("Окно \"Вы уверены?\" кнопка \"Yes, I`m sure\"")
+    private SelenideElement deleteCitizenshipYesImSure = $x("//input[@value='Yes, I’m sure']");
+
+    @Name("Окно \"Изменить Гражданство\" поле \"Name\"")
+    private SelenideElement editCitizenshipName = $x("//input[@id='id_name']");
+
+    @Name("Окно \"Изменить Гражданство\" кнопка \"Сохранить\"")
+    private SelenideElement editCitizenshipSave = $x("//input[@name='_save']");
 
     @Step("заполнить поле \"Фамилия\" значением {text} ")
     public AddEmployeePage fillSurnameField(String text) {
@@ -233,9 +250,14 @@ public class AddEmployeePage extends WebPage {
         return birthday.getAttribute("value");
     }
 
-    @Step("Заполнить поле \"Гражданство\"")
-    public void fillCitizenship(int num) {
+    @Step("Выбрать в поле \"Гражданство\" по значению")
+    public void selectCitizenship(int num) {
         citizenship.selectOptionByValue(String.valueOf(num));
+    }
+
+    @Step("Выбрать в поле \"Гражданство\" значение по тексту")
+    public void selectCitizenshipByText(String text) {
+        citizenship.selectOptionContainingText(text);
     }
 
     @Step("Получить поле \"Гражданство\"")
@@ -261,6 +283,58 @@ public class AddEmployeePage extends WebPage {
     @Step("Проверка не активности кнопки \"Удалить выбранный объект типа\" поля \"Гражданство\"")
     public void checkNotActiveDeleteSelectedObject() {
         citizenshipDeleteSelectedObject.shouldNotBe(Condition.attribute("href"));
+    }
+
+    @Step("Нажать на кнопку \"Добавить еще один объект\" в поле \"Гражданство\"")
+    public void clickCitizenshipAddObject() {
+        citizenshipAddObject.click();
+    }
+
+    @Step("Нажать на кнопку \"Сохранить\" в окне \"Добавить гражданство\"")
+    public void clickAddCitizenshipSave() {
+        addCitizenshipSave.click();
+    }
+
+    @Step("Заполнить поле \"Name\" в окне \"Добавить гражданство\"")
+    public void fillAddCitizenshipName(String name) {
+        addCitizenshipName.sendKeys(name);
+    }
+
+    @Step("Получить текст в поле \"Гражданство\"")
+    public String getCitizenshipText() {
+        return citizenship.getText();
+    }
+
+    @Step("Нажать кнопку \"Удалить выбранный объект типа\" поля \"Гражданство\"")
+    public void clickCitizenshipDeleteSelectedObject() {
+        citizenshipDeleteSelectedObject.click();
+    }
+
+    @Step("Нажать кнопку \"Изменить выбранный объект типа\" поля \"Гражданство\"")
+    public void clickCitizenshipEditSelectedObject() {
+        citizenshipEditSelectedObject.click();
+    }
+
+    @Step("Нажать кнопку \"Yes, I`m sure\" в окне \"Вы уверены?\" ")
+    public void clickDeleteCitizenshipYesImSure() {
+        deleteCitizenshipYesImSure.click();
+    }
+
+    @Step("получить значение из поля \"Name\" в окне \"Изменить Гражданство\"")
+    public String getEditCitizenshipName() {
+        return editCitizenshipName.getValue();
+    }
+
+    @Step("изменить поле \"Name\" в окне \"Изменить Гражданство\"")
+    public void fillEditCitizenshipName() {
+        String value = editCitizenshipName.getValue().substring(0, editCitizenshipName.getValue().length() - 2);
+        editCitizenshipName.clear();
+        editCitizenshipName.sendKeys(value);
+    }
+
+    @Step("нажать кнопку \"Сохранить\" в окне \"Изменить Гражданство\"")
+    public void clickEditCitizenshipSave() {
+        editCitizenshipSave.click();
     }
 
 
