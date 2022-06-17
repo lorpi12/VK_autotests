@@ -1,15 +1,17 @@
 package web.testng_style;
 
+import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import ru.lanit.at.Sql.PostgreSql;
+import ru.lanit.at.actions.WebChecks;
 import ru.lanit.at.pages.AddEmployeePage;
 import ru.lanit.at.pages.AuthPage;
 import ru.lanit.at.pages.EmployeePage;
 import ru.lanit.at.pages.MainPage;
-import ru.lanit.at.steps.web.WebCheckWebSteps;
 import ru.lanit.at.steps.web.WindowWebSteps;
+import ru.lanit.at.utils.Sleep;
 import web.MainTest;
 import web.PathOnLogin;
 
@@ -43,12 +45,10 @@ public class AddEmployeeHr7Test extends MainTest {
                 .searchOtpTokenShouldBeVisible()
                 .fillFieldOtpToken(getAuthToken(user))
                 .clickOnButtonSignIn();
-        mainPage.clickOnLinkEmployees();
-        employeePage.clickOnButtonAddNewEmployee();
     }
 
-    @AfterMethod
-    public void afterTest() {
+    @BeforeMethod
+    public void beforeTest() {
         windowWebSteps.open(System.getProperty("site.url"));
         mainPage.clickOnLinkEmployees();
         employeePage.clickOnButtonAddNewEmployee();
@@ -346,7 +346,7 @@ public class AddEmployeeHr7Test extends MainTest {
 
     @Step("Шаг №3")
     private void step10_3(int citizenship) {
-        addEmployeePage.fillCitizenship(citizenship);
+        addEmployeePage.selectCitizenship(citizenship);
         Assert.assertEquals(addEmployeePage.getCitizenship(), String.valueOf(citizenship));
     }
 
@@ -360,5 +360,130 @@ public class AddEmployeeHr7Test extends MainTest {
         addEmployeePage.checkActiveDeleteSelectedObject();
     }
 
+    @DataProvider
+    public Object[][] dataTest11() {
+        return new Object[][]{
+                {"qwe123"}
+        };
+    }
+
+    @Test(dataProvider = "dataTest11")
+    public void Test11(String name) {
+        step11_1();
+        step11_2();
+        step11_3(name);
+        step11_4();
+        step11_5(name);
+    }
+
+    @Step("Шаг №1")
+    private void step11_1() {
+        addEmployeePage.clickCitizenshipAddObject();
+    }
+
+    @Step("Шаг №2")
+    private void step11_2() {
+        Selenide.switchTo().window(1);
+        WebChecks.textVisibleOnPage("Добавить Гражданство", 2);
+    }
+
+    @Step("Шаг №3")
+    private void step11_3(String name) {
+        addEmployeePage.fillAddCitizenshipName(name);
+    }
+
+    @Step("Шаг №4")
+    private void step11_4() {
+        addEmployeePage.clickAddCitizenshipSave();
+    }
+
+    @Step("Шаг №5")
+    private void step11_5(String name) {
+        Selenide.switchTo().window(0);
+        Assert.assertEquals(addEmployeePage.getCitizenshipText(), name);
+    }
+
+    @Test(dataProvider = "dataTest11")
+    public void Test12(String name) {
+        step12_1(name);
+        step12_2();
+        step12_3();
+        step12_4(name);
+        step12_5();
+        step12_6(name);
+
+    }
+
+    @Step("Шаг №1")
+    private void step12_1(String name) {
+        addEmployeePage.selectCitizenshipByText(name);
+        Assert.assertEquals(addEmployeePage.getCitizenshipText(), name);
+    }
+
+    @Step("Шаг №2")
+    private void step12_2() {
+        addEmployeePage.clickCitizenshipEditSelectedObject();
+    }
+
+    @Step("Шаг №3")
+    private void step12_3() {
+        Selenide.switchTo().window(1);
+        WebChecks.textVisibleOnPage("Изменить Гражданство", 2);
+    }
+
+    @Step("Шаг №4")
+    private void step12_4(String name) {
+        Assert.assertEquals(addEmployeePage.getEditCitizenshipName(), name);
+        addEmployeePage.fillEditCitizenshipName();
+        Sleep.pauseSec(2);
+
+    }
+
+    @Step("Шаг №5")
+    private void step12_5() {
+        addEmployeePage.clickEditCitizenshipSave();
+    }
+
+    @Step("Шаг №6")
+    private void step12_6(String name) {
+        Selenide.switchTo().window(0);
+        Assert.assertEquals(addEmployeePage.getCitizenshipText(), name.substring(0, name.length() - 2));
+    }
+
+    @Test(dataProvider = "dataTest11")
+    public void Test13(String name) {
+        step13_1(name);
+        step13_2();
+        step13_3();
+        step13_4();
+        step13_5();
+    }
+
+    @Step("Шаг №1")
+    private void step13_1(String name) {
+        addEmployeePage.selectCitizenshipByText(name.substring(0, name.length() - 2));
+    }
+
+    @Step("Шаг №2")
+    private void step13_2() {
+        addEmployeePage.clickCitizenshipDeleteSelectedObject();
+    }
+
+    @Step("Шаг №3")
+    private void step13_3() {
+        Selenide.switchTo().window(1);
+        WebChecks.textVisibleOnPage("Вы уверены?", 2);
+    }
+
+    @Step("Шаг №4")
+    private void step13_4() {
+        addEmployeePage.clickDeleteCitizenshipYesImSure();
+    }
+
+    @Step("Шаг №5")
+    private void step13_5() {
+        Selenide.switchTo().window(0);
+        Assert.assertEquals(addEmployeePage.getCitizenship(), "");
+    }
 
 }
