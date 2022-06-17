@@ -447,6 +447,13 @@ public class AddEmployeePage extends WebPage {
         WebChecks.elementAbsentOnPage(indexOfStatusEmployee.$x("./div[1]/input[@type='checkbox']"), 2);
     }
 
+    @Step("Создает случайную строку для \"Почты\"")
+    public void generate() {
+        WebChecks.elementAbsentOnPage(indexOfStatusEmployee.$x("./div[1]/input[@type='checkbox']"), 2);
+    }
+
+
+
 
 
 

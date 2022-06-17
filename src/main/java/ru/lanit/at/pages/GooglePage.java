@@ -1,13 +1,10 @@
 package ru.lanit.at.pages;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import ru.lanit.at.utils.web.annotations.Name;
 import ru.lanit.at.utils.web.pagecontext.WebPage;
-
-import java.time.Duration;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;

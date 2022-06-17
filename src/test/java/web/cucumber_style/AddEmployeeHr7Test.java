@@ -1,6 +1,7 @@
 package web.cucumber_style;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -9,12 +10,10 @@ import ru.lanit.at.steps.web.WebActionWebSteps;
 import ru.lanit.at.steps.web.WebCheckWebSteps;
 import ru.lanit.at.steps.web.WindowWebSteps;
 import ru.lanit.at.utils.web.pagecontext.PageManager;
-import web.MainTest;
-import web.PathOnLogin;
+import ru.lanit.at.api.LoginAction.MainTest;
+import ru.lanit.at.dictionaries.PathOnLogin;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AddEmployeeHr7Test extends MainTest {
 
@@ -28,18 +27,23 @@ public class AddEmployeeHr7Test extends MainTest {
     private final WebCheckWebSteps webCheckWebSteps = new WebCheckWebSteps(pageManager);
 
 
-    @BeforeMethod
-    public void beforeTest() throws IOException {
-        PathOnLogin user = PathOnLogin.hr;
-        System.getProperties().load(ClassLoader.getSystemResourceAsStream("accounts.properties"));
+    @BeforeClass
+    public void beforeClass() throws IOException {
+        PathOnLogin user = PathOnLogin.HR;
+        System.getProperties().load(ClassLoader.getSystemResourceAsStream("config/configuration.properties"));
         windowWebSteps.open(System.getProperty("site.url"));
         windowWebSteps.setPage("Страница авторизации");
         webActionWebSteps.fillTheField("Логин", user.getLogin());
-        webActionWebSteps.fillTheField("Пароль", System.getProperty(user.getLogin()));
+        webActionWebSteps.fillTheField("Пароль", user.getPassword());
         webActionWebSteps.clickOnElement("Чекбокс \"Админские права\"");
         webCheckWebSteps.elementAppearOnThePage("Отп токен");
         webActionWebSteps.fillTheField("Отп токен", getAuthToken(user));
         webActionWebSteps.clickOnElement("Кнопка \"Войти\"");
+    }
+
+    @BeforeMethod
+    public void beforeMethod(){
+        windowWebSteps.open(System.getProperty("site.url"));
         windowWebSteps.setPage("Главная страница");
         webActionWebSteps.clickOnElement("ссылка сотрудники");
         windowWebSteps.setPage("Сотрудники");
@@ -104,31 +108,31 @@ public class AddEmployeeHr7Test extends MainTest {
     }
 
 
-//    @DataProvider
-//    public Object[][] dataTest2() {
-//        return new Object[][]{
-//                {"src/test/resources/photoFile/kotik.jpg", "kotik.jpg"}
-//        };
-//    }
-//
-//
-//    @Test(dataProvider = "dataTest2")
-//    public void test2(String path, String nameFile) {
-//        step2_1(path);
-//        step2_2(nameFile);
-//    }
-//
-//    private void step2_1(String path) {
-//        debugWebSteps.stepNumber("1");
-//        windowWebSteps.setPage("Добавить Сотрудник");
-//        webActionWebSteps.uploadFile("Фото", path);
-//    }
-//
-//    private void step2_2(String nameFile) {
-//        debugWebSteps.stepNumber("2");
-//        webActionWebSteps.saveValueField("Фото", "namePhoto");
-//        Assert.assertTrue(webActionWebSteps.getValueByKey("namePhoto").contains(nameFile));
-//    }
+    @DataProvider
+    public Object[][] dataTest2() {
+        return new Object[][]{
+                {"src/test/resources/photoFile/kotik.jpg", "kotik.jpg"}
+        };
+    }
+
+
+    @Test(dataProvider = "dataTest2")
+    public void test2(String path, String nameFile) {
+        step2_1(path);
+        step2_2(nameFile);
+    }
+
+    private void step2_1(String path) {
+        debugWebSteps.stepNumber("1");
+        windowWebSteps.setPage("Добавить Сотрудник");
+        webActionWebSteps.uploadFile("Фото", path);
+    }
+
+    private void step2_2(String nameFile) {
+        debugWebSteps.stepNumber("2");
+        webActionWebSteps.saveValueField("Фото", "namePhoto");
+        Assert.assertTrue(webActionWebSteps.getValueByKey("namePhoto").contains(nameFile));
+    }
 
 
 }

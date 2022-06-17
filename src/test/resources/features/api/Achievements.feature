@@ -7,8 +7,8 @@
 
     #Авторизация
     * создать запрос
-      | method | url                                     | body           |
-      | POST   | http://178.154.246.238:58082/api/login/ | authAdmin.json |
+      | method | path    | body           |
+      | POST   | /login/ | authAdmin.json |
     * добавить header
       | Content-Type | application/json |
       | accept       | application/json |
@@ -19,8 +19,8 @@
 
     #Запрос
     * создать запрос
-      | method | url                                            |
-      | GET    | http://178.154.246.238:58082/api/achievements/ |
+      | method | path           |
+      | GET    | /achievements/ |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер
@@ -36,8 +36,8 @@
 
     #Запрос
     * создать запрос
-      | method | url                                            | body              |
-      | POST   | http://178.154.246.238:58082/api/achievements/ | PostAccounts.json |
+      | method | path           | body              |
+      | POST   | /achievements/ | PostAccounts.json |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер
@@ -52,8 +52,8 @@
 
     #Запрос
     * создать запрос
-      | method | url                                                 |
-      | GET    | http://178.154.246.238:58082/api/achievements/${id} |
+      | method | path                |
+      | GET    | /achievements/${id} |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер
@@ -74,8 +74,8 @@
 
     #Запрос
     * создать запрос
-      | method | url                                                 | body               |
-      | PATCH  | http://178.154.246.238:58082/api/achievements/${id} | PatchAccounts.json |
+      | method | path                | body               |
+      | PATCH  | /achievements/${id} | PatchAccounts.json |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер
@@ -93,8 +93,8 @@
 
     #Запрос удаления
     * создать запрос
-      | method | url                                                 |
-      | DELETE | http://178.154.246.238:58082/api/achievements/${id} |
+      | method | path                |
+      | DELETE | /achievements/${id} |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер
@@ -103,8 +103,8 @@
 
     #Запрос проверки
     * создать запрос
-      | method | url                                                 |
-      | GET    | http://178.154.246.238:58082/api/achievements/${id} |
+      | method | path                |
+      | GET    | /achievements/${id} |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер

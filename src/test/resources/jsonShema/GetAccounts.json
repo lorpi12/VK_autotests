@@ -9,7 +9,7 @@
           "type": "string"
         },
         "active_admin": {
-          "type": "string"
+          "type": "array"
         },
         "id": {
           "type": "integer"

@@ -10,7 +10,7 @@ import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import web.PathOnLogin;
+import ru.lanit.at.dictionaries.PathOnLogin;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,13 +21,13 @@ public class AddEmployeeHr7Test {
     private String token;
 
     private String generateJson(PathOnLogin login) {
-        return "{\"username\":\"" + login.getLogin() + "\",\n\"password\":\"" + System.getProperty(login.getLogin()) + "\"}";
+        return "{\"username\":\"" + login.getLogin() + "\",\n\"password\":\"" + login.getPassword() + "\"}";
 
     }
 
     @BeforeClass
     public void prepare() throws IOException {
-        System.getProperties().load(ClassLoader.getSystemResourceAsStream("accounts.properties"));
+        System.getProperties().load(ClassLoader.getSystemResourceAsStream("config/configuration.properties"));
         RestAssured.requestSpecification = new RequestSpecBuilder()
                 .setBaseUri(System.getProperty("site.url"))
                 .setAccept(ContentType.JSON)
@@ -38,10 +38,9 @@ public class AddEmployeeHr7Test {
     }
 
     @BeforeMethod
-    public void authorization() throws IOException {
-        System.getProperties().load(ClassLoader.getSystemResourceAsStream("accounts.properties"));
+    public void authorization(){
         this.token = given()
-                .body(generateJson(PathOnLogin.admin))
+                .body(generateJson(PathOnLogin.ADMIN))
                 .when()
                 .post("/api/login/")
                 .then()

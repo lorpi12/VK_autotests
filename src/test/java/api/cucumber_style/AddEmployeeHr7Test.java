@@ -16,8 +16,9 @@ public class AddEmployeeHr7Test {
     private final ApiSteps apiSteps = new ApiSteps();
 
     @BeforeMethod
-    public void authorization() {
-        RequestModel requestModel = new RequestModel("POST", "authAdmin.json", null, "http://178.154.246.238:58082/api/login");
+    public void authorization() throws IOException {
+        System.getProperties().load(ClassLoader.getSystemResourceAsStream("config/configuration.properties"));
+        RequestModel requestModel = new RequestModel("POST", "authAdmin.json", null, System.getProperty("baseUrl")+"/login");
         apiSteps.createRequest(requestModel);
         DataTable dataTable = DataTable.create(
                 Arrays.asList(
@@ -34,9 +35,8 @@ public class AddEmployeeHr7Test {
 
     @Test
     public void test() {
-        RequestModel requestModel = new RequestModel("GET", null, null, "http://178.154.246.238:58082/api/accounts/");
+        RequestModel requestModel = new RequestModel("GET", null, null, System.getProperty("baseUrl")+"/accounts/");
         apiSteps.createRequest(requestModel);
-        DataTable.TableConverter tableConverter;
         DataTable dataTable = DataTable.create(Arrays.asList(
                 Arrays.asList("Content-Type", "application/json"),
                 Arrays.asList("Accept", "application/json")

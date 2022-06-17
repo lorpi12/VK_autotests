@@ -1,13 +1,11 @@
 package web.cucumber_style;
 
-import io.qameta.allure.Step;
 import org.testng.annotations.Test;
 import ru.lanit.at.steps.web.DebugWebSteps;
 import ru.lanit.at.steps.web.WebActionWebSteps;
 import ru.lanit.at.steps.web.WebCheckWebSteps;
 import ru.lanit.at.steps.web.WindowWebSteps;
 import ru.lanit.at.utils.web.pagecontext.PageManager;
-import web.MainTest;
 
 public class ExampleTest {
     /* Для осуществления поиска элементов в контексте конкртеной страницы */

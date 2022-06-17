@@ -11,16 +11,17 @@ import ru.lanit.at.pages.AuthPage;
 import ru.lanit.at.pages.EmployeePage;
 import ru.lanit.at.pages.MainPage;
 import ru.lanit.at.steps.web.WindowWebSteps;
-import ru.lanit.at.utils.Sleep;
-import web.MainTest;
-import web.PathOnLogin;
+import ru.lanit.at.utils.DataGenerator;
+import ru.lanit.at.api.LoginAction.MainTest;
+import ru.lanit.at.dictionaries.PathOnLogin;
+
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayDeque;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -37,11 +38,11 @@ public class AddEmployeeHr7Test extends MainTest {
 
     @BeforeClass
     public void beforeClass() throws IOException {
-        System.getProperties().load(ClassLoader.getSystemResourceAsStream("accounts.properties"));
-        PathOnLogin user = PathOnLogin.hr;
+        System.getProperties().load(ClassLoader.getSystemResourceAsStream("config/configuration.properties"));
+        PathOnLogin user = PathOnLogin.HR;
         windowWebSteps.open(System.getProperty("site.url"));
         authPage.fillFieldLogin(user.getLogin())
-                .fillFieldPassword(System.getProperty(user.getLogin()))
+                .fillFieldPassword(user.getPassword())
                 .clickOnCheckBoxAdminRules()
                 .searchOtpTokenShouldBeVisible()
                 .fillFieldOtpToken(getAuthToken(user))
@@ -236,7 +237,7 @@ public class AddEmployeeHr7Test extends MainTest {
     @DataProvider
     public Object[][] dataTest6() {
         return new Object[][]{
-                {"+79000000000"}
+                {DataGenerator.generateValueByMask("+79DDDDDDDDD")}
         };
     }
 
@@ -436,7 +437,6 @@ public class AddEmployeeHr7Test extends MainTest {
     private void step12_4(String name) {
         Assert.assertEquals(addEmployeePage.getEditCitizenshipName(), name);
         addEmployeePage.fillEditCitizenshipName();
-        Sleep.pauseSec(2);
 
     }
 
@@ -491,7 +491,7 @@ public class AddEmployeeHr7Test extends MainTest {
     @DataProvider
     public Object[][] dataTest14() {
         return new Object[][]{
-                {"qwert@qqqqq.qqq"}
+                {DataGenerator.generateValueByMask("EEEEE@EEEEE.EEE")}
         };
     }
 
@@ -555,6 +555,7 @@ public class AddEmployeeHr7Test extends MainTest {
     private void step15_3() {
         Selenide.switchTo().window(1);
         WebChecks.textVisibleOnPage("Добавить Показатель квалификации", 2);
+        Selenide.switchTo().window(0);
     }
 
     @Test

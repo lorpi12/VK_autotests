@@ -7,8 +7,8 @@
 
     #Авторизация
     * создать запрос
-      | method | url                                     | body           |
-      | POST   | http://178.154.246.238:58082/api/login/ | authAdmin.json |
+      | method | path   | body           |
+      | POST   | /login | authAdmin.json |
     * добавить header
       | Content-Type | application/json |
       | accept       | application/json |
@@ -19,8 +19,8 @@
 
     #Запрос
     * создать запрос
-      | method | url                                        |
-      | GET    | http://178.154.246.238:58082/api/accounts/ |
+      | method | path      |
+      | GET    | /accounts |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер
@@ -36,8 +36,8 @@
 
     #Запрос
     * создать запрос
-      | method | url                                        | body              |
-      | POST   | http://178.154.246.238:58082/api/accounts/ | PostAccounts.json |
+      | method | path       | body              |
+      | POST   | /accounts/ | PostAccounts.json |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер
@@ -52,8 +52,8 @@
 
     #Запрос
     * создать запрос
-      | method | url                                             |
-      | GET    | http://178.154.246.238:58082/api/accounts/${id} |
+      | method | path            |
+      | GET    | /accounts/${id} |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер
@@ -76,8 +76,8 @@
 
     #Запрос
     * создать запрос
-      | method | url                                             | body               |
-      | PATCH  | http://178.154.246.238:58082/api/accounts/${id} | PatchAccounts.json |
+      | method | path            | body               |
+      | PATCH  | /accounts/${id} | PatchAccounts.json |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер
@@ -97,8 +97,8 @@
 
     #Запрос удаления
     * создать запрос
-      | method | url                                             |
-      | DELETE | http://178.154.246.238:58082/api/accounts/${id} |
+      | method | path            |
+      | DELETE | /accounts/${id} |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер
@@ -107,8 +107,8 @@
 
     #Запрос проверки
     * создать запрос
-      | method | url                                             |
-      | GET    | http://178.154.246.238:58082/api/accounts/${id} |
+      | method | path            |
+      | GET    | /accounts/${id} |
     * добавить header
       | Content-Type | application/json |
     * добавить авторизацию в хедер
