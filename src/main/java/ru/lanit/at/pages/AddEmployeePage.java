@@ -1,5 +1,6 @@
 package ru.lanit.at.pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import ru.lanit.at.utils.web.annotations.Name;
@@ -35,26 +36,53 @@ public class AddEmployeePage extends WebPage {
     @Name("Фото")
     private SelenideElement uploadPhoto = $x("//input[@id='id_photo']");
 
-    @Name("Календарь")
-    private SelenideElement calendar = $x("//div[@id='calendarbox0']");
+    @Name("Календарь \"Дата приема на работу\"")
+    private SelenideElement calendarJoiningDate = $x("//div[@id='calendarbox0']");
 
-    @Name("Прибавить дату в календаре")
-    private SelenideElement calendarUp = $x("//div[@id='calendarbox0']//a[@class='calendarnav-next']");
+    @Name("Прибавить дату в календаре \"Дата приема на работу\"")
+    private SelenideElement calendarUpJoiningDate = $x("//div[@id='calendarbox0']//a[@class='calendarnav-next']");
 
-    @Name("Убавить дату в календаре")
-    private SelenideElement calendarDown = $x("//div[@id='calendarbox0']//a[@class='calendarnav-previous']");
+    @Name("Убавить дату в календаре \"Дата приема на работу\"")
+    private SelenideElement calendarDownJoiningDate = $x("//div[@id='calendarbox0']//a[@class='calendarnav-previous']");
 
-    @Name("Модуль календаря")
-    private SelenideElement calendarModule = $x("//a[@id='calendarlink0']/span[@class='date-icon']");
+    @Name("Модуль календаря \"Дата приема на работу\"")
+    private SelenideElement calendarModuleJoiningDate = $x("//a[@id='calendarlink0']/span[@class='date-icon']");
 
     @Name("Дата приема на работу")
     private SelenideElement joiningDate = $x("//input[@id='id_joining_date']");
 
     @Name("Дата приема на работу \"Cегодня\"")
-    private SelenideElement todayDate = $x("//div[@class='fieldBox field-joining_date']//a[text()='Сегодня']");
+    private SelenideElement todayDateJoiningDate = $x("//div[@class='fieldBox field-joining_date']//a[text()='Сегодня']");
 
     @Name("Телефон")
     private SelenideElement phone = $x("//input[@id='id_phone']");
+
+    @Name("Календарь \"Дата рождения\"")
+    private SelenideElement calendarBirthday = $x("//div[@id='calendarbox1']");
+
+    @Name("Прибавить дату в календаре \"Дата рождения\"")
+    private SelenideElement calendarUpBirthday = $x("//div[@id='calendarbox1']//a[@class='calendarnav-next']");
+
+    @Name("Убавить дату в календаре \"Дата рождения\"")
+    private SelenideElement calendarDownBirthday = $x("//div[@id='calendarbox1']//a[@class='calendarnav-previous']");
+
+    @Name("Модуль календаря \"Дата рождения\"")
+    private SelenideElement calendarModuleBirthday = $x("//a[@id='calendarlink1']/span[@class='date-icon']");
+
+    @Name("Дата рождения")
+    private SelenideElement birthday = $x("//input[@id='id_birth']");
+
+    @Name("Дата рождения \"Cегодня\"")
+    private SelenideElement todayDateBirthday = $x("//div[@class='fieldBox field-birth']//a[text()='Сегодня']");
+
+    @Name("Поле \"Гражданство\" кнопка \"Изменить выбранный объект типа\"")
+    private SelenideElement citizenshipEditSelectedObject = $x("//a[@id='change_id_citizenship']");
+
+    @Name("Поле \"Гражданство\" кнопка \"Удалить выбранный объект типа\"")
+    private SelenideElement citizenshipDeleteSelectedObject = $x("//a[@id='delete_id_citizenship']");
+
+    @Name("Поле \"Гражданство\"")
+    private SelenideElement citizenship = $x("//select[@id='id_citizenship']");
 
 
     @Step("заполнить поле \"Фамилия\" значением {text} ")
@@ -96,17 +124,18 @@ public class AddEmployeePage extends WebPage {
         return uploadPhoto.getAttribute("value");
     }
 
-    @Step("Получить имя файла")
-    public void clickCalendarModule() {
-        calendarModule.click();
+    @Step("Нажать на модуль календаря \"Дата приема на работу\"")
+    public void clickCalendarModuleJoiningDate() {
+        calendarModuleJoiningDate.click();
     }
 
-    @Step("Заполнение модуля календаря")
-    public void fillCalendar(Calendar data) throws ParseException {
+
+    @Step("Заполнение модуля календаря \"Дата приема на работу\"")
+    public void fillCalendarJoiningDate(Calendar data) throws ParseException {
         Locale rus = new Locale("ru", "RU");
         Calendar cal = Calendar.getInstance();
         do {
-            String yearAndMonth = calendar.$x(".//caption").getText().toLowerCase(rus).trim();
+            String yearAndMonth = calendarJoiningDate.$x(".//caption").getText().toLowerCase(rus).trim();
 
             int year = Integer.parseInt(yearAndMonth.substring(yearAndMonth.indexOf(" ") + 1));
             String month = yearAndMonth.substring(0, yearAndMonth.indexOf(" ")).toLowerCase(rus);
@@ -117,12 +146,12 @@ public class AddEmployeePage extends WebPage {
             cal.set(Calendar.DAY_OF_MONTH, data.get(Calendar.DAY_OF_MONTH));
 
             if (data.compareTo(cal) == 1) {
-                calendarUp.click();
-            } else if (data.compareTo(cal) == -1) calendarDown.click();
+                calendarUpJoiningDate.click();
+            } else if (data.compareTo(cal) == -1) calendarDownJoiningDate.click();
         }
         while (data.compareTo(cal) != 0);
 
-        calendar.$x(".//a[text()='" + data.get(Calendar.DAY_OF_MONTH) + "']").click();
+        calendarJoiningDate.$x(".//a[text()='" + data.get(Calendar.DAY_OF_MONTH) + "']").click();
     }
 
     @Step("Очистить поле \"Дата приема на работу\" ")
@@ -135,9 +164,14 @@ public class AddEmployeePage extends WebPage {
         joiningDate.sendKeys(data);
     }
 
-    @Step("Нажать на кнопку \"Cегодня\"")
-    public void clickTodayDate() {
-        todayDate.click();
+    @Step("Нажать на кнопку \"Cегодня\" около поля \"Дата приема на работу\"")
+    public void clickTodayDateJoiningDate() {
+        todayDateJoiningDate.click();
+    }
+
+    @Step("Заполнить поле \"Дата приема на работу\"")
+    public String getJoiningDate() {
+        return joiningDate.getAttribute("value");
     }
 
     @Step("Заполнить поле \"Телефон\"")
@@ -150,10 +184,83 @@ public class AddEmployeePage extends WebPage {
         return phone.getAttribute("value");
     }
 
+    @Step("Нажать на модуль календаря \"Дата рождения\"")
+    public void clickCalendarModuleBirthday() {
+        calendarModuleBirthday.click();
+    }
 
-    @Step
-    public String getJoiningDate() {
-        return joiningDate.getAttribute("value");
+    @Step("Заполнение модуля календаря \"Дата рождения\"")
+    public void fillCalendarBirthday(Calendar data) throws ParseException {
+        Locale rus = new Locale("ru", "RU");
+        Calendar cal = Calendar.getInstance();
+        do {
+            String yearAndMonth = calendarBirthday.$x(".//caption").getText().toLowerCase(rus).trim();
+
+            int year = Integer.parseInt(yearAndMonth.substring(yearAndMonth.indexOf(" ") + 1));
+            String month = yearAndMonth.substring(0, yearAndMonth.indexOf(" ")).toLowerCase(rus);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("MMMM", rus);
+            cal.setTime(sdf.parse(month));
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.DAY_OF_MONTH, data.get(Calendar.DAY_OF_MONTH));
+
+            if (data.compareTo(cal) == 1) {
+                calendarUpBirthday.click();
+            } else if (data.compareTo(cal) == -1) calendarDownBirthday.click();
+        }
+        while (data.compareTo(cal) != 0);
+
+        calendarBirthday.$x(".//a[text()='" + data.get(Calendar.DAY_OF_MONTH) + "']").click();
+    }
+
+    @Step("Очистить поле \"Дата рождения\" ")
+    public void clearBirthday() {
+        birthday.clear();
+    }
+
+    @Step("Заполнить поле \"Дата рождения\" ")
+    public void fillBirthday(String data) {
+        birthday.sendKeys(data);
+    }
+
+    @Step("Нажать на кнопку \"Cегодня\" около поля \"Дата рождения\"")
+    public void clickTodayDateBirthday() {
+        todayDateBirthday.click();
+    }
+
+    @Step("Заполнить поле \"Дата рождения\"")
+    public String getBirthday() {
+        return birthday.getAttribute("value");
+    }
+
+    @Step("Заполнить поле \"Гражданство\"")
+    public void fillCitizenship(int num) {
+        citizenship.selectOptionByValue(String.valueOf(num));
+    }
+
+    @Step("Получить поле \"Гражданство\"")
+    public String getCitizenship() {
+        return citizenship.getValue();
+    }
+
+    @Step("Проверка активности кнопки \"Изменить выбранный объект типа\" поля \"Гражданство\"")
+    public void checkActiveEditSelectedObject() {
+        citizenshipEditSelectedObject.shouldBe(Condition.attribute("href"));
+    }
+
+    @Step("Проверка не активности кнопки \"Изменить выбранный объект типа\" поля \"Гражданство\"")
+    public void checkNotActiveEditSelectedObject() {
+        citizenshipEditSelectedObject.shouldNotBe(Condition.attribute("href"));
+    }
+
+    @Step("Проверка активности кнопки \"Удалить выбранный объект типа\" поля \"Гражданство\"")
+    public void checkActiveDeleteSelectedObject() {
+        citizenshipDeleteSelectedObject.shouldBe(Condition.attribute("href"));
+    }
+
+    @Step("Проверка не активности кнопки \"Удалить выбранный объект типа\" поля \"Гражданство\"")
+    public void checkNotActiveDeleteSelectedObject() {
+        citizenshipDeleteSelectedObject.shouldNotBe(Condition.attribute("href"));
     }
 
 

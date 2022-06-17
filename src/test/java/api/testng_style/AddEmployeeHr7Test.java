@@ -58,6 +58,6 @@ public class AddEmployeeHr7Test {
                 .get("/api/accounts/")
                 .then()
                 .statusCode(200)
-                .body(JsonSchemaValidator.matchesJsonSchema(new File("src/test/resources/jsonShema/shema.json")));
+                .body(JsonSchemaValidator.matchesJsonSchema(new File("src/test/resources/jsonShema/GetAccounts.json")));
     }
 }

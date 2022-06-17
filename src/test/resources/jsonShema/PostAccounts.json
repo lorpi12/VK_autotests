@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "active_admin": {
+      "type": "array",
+      "items": {}
+    },
+    "id": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "name",
+    "active_admin",
+    "id"
+  ]
+}
