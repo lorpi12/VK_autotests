@@ -1,7 +1,7 @@
 #language:ru
 @test
 
-Функционал: Проверка API HRM
+Функционал: Проверка API HRM /accounts
 
   Сценарий: 1 Test case Get /accounts/
 

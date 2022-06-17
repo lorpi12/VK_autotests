@@ -3,6 +3,7 @@ package ru.lanit.at.pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
+import ru.lanit.at.actions.WebChecks;
 import ru.lanit.at.utils.web.annotations.Name;
 import ru.lanit.at.utils.web.pagecontext.WebPage;
 
@@ -102,36 +103,69 @@ public class AddEmployeePage extends WebPage {
     @Name("Окно \"Изменить Гражданство\" кнопка \"Сохранить\"")
     private SelenideElement editCitizenshipSave = $x("//input[@name='_save']");
 
-    @Step("заполнить поле \"Фамилия\" значением {text} ")
+    @Name("Поле \"Корпоративная почта\"")
+    private SelenideElement CorporationMail = $x("//input[@id='id_internal_email']");
+
+    @Name("Кнопка \"Показать/Скрыть\" в блоке \"Квалификация\"")
+    private SelenideElement showQualification = $x("//a[@id='fieldsetcollapser0']");
+
+    @Name("Список чекбоксов \"Показатель квалификации\"")
+    private SelenideElement indexOfQualification = $x("//ul[@id='id_qualification_skill']");
+
+    @Name("Кнопка \"Добавить еще один объект\" в блоке \"Квалификация\"")
+    private SelenideElement addObjectQualification = $x("//a[@id='add_id_qualification_skill']");
+
+    @Name("Кнопка \"Показать/Скрыть\" в блоке \"Навыки\"")
+    private SelenideElement showSkill = $x("//a[@id='fieldsetcollapser1']");
+
+    @Name("Список чекбоксов \"Ключевой навык\"")
+    private SelenideElement indexOfSkill = $x("//ul[@id='id_key_skill']");
+
+    @Name("Кнопка \"Показать/Скрыть\" в блоке \"Сертификаты\"")
+    private SelenideElement showCertificate = $x("//a[@id='fieldsetcollapser2']");
+
+    @Name("Поле \"Курсы\" в блоке \"Сертификаты\"")
+    private SelenideElement coursesСertificate = $x("//textarea[@id='id_courses']");
+
+    @Name("Поле \"Сертификаты\" в блоке \"Сертификаты\"")
+    private SelenideElement certificateСertificate = $x("//textarea[@id='id_certificates']");
+
+    @Name("Кнопка \"Показать/Скрыть\" в блоке \"Статус сотрудника\"")
+    private SelenideElement showStatusEmployee = $x("//a[@id='fieldsetcollapser3']");
+
+    @Name("Список чекбоксов \"Статус сотрудников\"")
+    private SelenideElement indexOfStatusEmployee = $x("//fieldset[@class='module aligned collapse']/div");
+
+    @Step("Заполнить поле \"Фамилия\" значением {text} ")
     public AddEmployeePage fillSurnameField(String text) {
         surname.sendKeys(text);
         return this;
     }
 
-    @Step("заполнить поле \"Имя\" значением {text} ")
+    @Step("Заполнить поле \"Имя\" значением {text} ")
     public AddEmployeePage fillNameField(String text) {
         name.sendKeys(text);
         return this;
     }
 
-    @Step("заполнить поле \"Отчество\" значением {text} ")
+    @Step("Заполнить поле \"Отчество\" значением {text} ")
     public AddEmployeePage fillPatronymicField(String text) {
         patronymic.sendKeys(text);
         return this;
     }
 
-    @Step("заполнить селект \"Пол\" значением {value} ")
+    @Step("Заполнить селект \"Пол\" значением {value} ")
     public AddEmployeePage fillSelectGender(String value) {
         gender.selectOptionContainingText(value);
         return this;
     }
 
-    @Step("нажать на кнопку \"Сохранить\" ")
+    @Step("Нажать на кнопку \"Сохранить\" ")
     public void clickButtonSave() {
         buttonSave.click();
     }
 
-    @Step("загрузить фото, расположенное в {path} ")
+    @Step("Загрузить фото, расположенное в {path} ")
     public void uploadFile(String path) {
         uploadPhoto.uploadFile(new File(path));
     }
@@ -176,7 +210,7 @@ public class AddEmployeePage extends WebPage {
         joiningDate.clear();
     }
 
-    @Step("Заполнить поле \"Дата приема на работу\" ")
+    @Step("Заполнить поле \"Дата приема на работу\" значением {data}")
     public void fillJoiningDate(String data) {
         joiningDate.sendKeys(data);
     }
@@ -191,7 +225,7 @@ public class AddEmployeePage extends WebPage {
         return joiningDate.getAttribute("value");
     }
 
-    @Step("Заполнить поле \"Телефон\"")
+    @Step("Заполнить поле \"Телефон\" значением {number}")
     public void fillPhone(String number) {
         phone.sendKeys(number);
     }
@@ -235,7 +269,7 @@ public class AddEmployeePage extends WebPage {
         birthday.clear();
     }
 
-    @Step("Заполнить поле \"Дата рождения\" ")
+    @Step("Заполнить поле \"Дата рождения\" значением {data} ")
     public void fillBirthday(String data) {
         birthday.sendKeys(data);
     }
@@ -250,12 +284,12 @@ public class AddEmployeePage extends WebPage {
         return birthday.getAttribute("value");
     }
 
-    @Step("Выбрать в поле \"Гражданство\" по значению")
+    @Step("Выбрать в поле \"Гражданство\" по значению {num}")
     public void selectCitizenship(int num) {
         citizenship.selectOptionByValue(String.valueOf(num));
     }
 
-    @Step("Выбрать в поле \"Гражданство\" значение по тексту")
+    @Step("Выбрать в поле \"Гражданство\" значение по тексту {text}")
     public void selectCitizenshipByText(String text) {
         citizenship.selectOptionContainingText(text);
     }
@@ -295,7 +329,7 @@ public class AddEmployeePage extends WebPage {
         addCitizenshipSave.click();
     }
 
-    @Step("Заполнить поле \"Name\" в окне \"Добавить гражданство\"")
+    @Step("Заполнить поле \"Name\" в окне \"Добавить гражданство\" значением {name}")
     public void fillAddCitizenshipName(String name) {
         addCitizenshipName.sendKeys(name);
     }
@@ -335,6 +369,82 @@ public class AddEmployeePage extends WebPage {
     @Step("нажать кнопку \"Сохранить\" в окне \"Изменить Гражданство\"")
     public void clickEditCitizenshipSave() {
         editCitizenshipSave.click();
+    }
+
+    @Step("Заполнить поле \"Корпоративная почта\"")
+    public void fillCorporationMail(String mail) {
+        CorporationMail.sendKeys(mail);
+    }
+
+    @Step("Получить значение из поля \"Корпоративная почта\"")
+    public String getCorporationMail() {
+        return CorporationMail.getValue();
+    }
+
+    @Step("Нажать на кнопку \"Показать/Скрыть\" в блоке \"Квалификация\"")
+    public void clickShowQualification() {
+        showQualification.click();
+    }
+
+    @Step("Выбирает {num} случайныx чек-боксов в блоке \"Квалификация\"")
+    public void selectRandomCheckBoxQualification(int num) {
+        for (int i = 0; i < num; i++) {
+            indexOfQualification.$x("./li[" + (int) ((Math.random() * 46) + 1) + "]//input").click();
+        }
+    }
+
+    @Step("Нажать на кнопку \"Добавить еще один объект типа\" в блоке \"Квалификация\"")
+    public void clickAddObjectQualification() {
+        addObjectQualification.click();
+    }
+
+    @Step("Нажать на кнопку \"Показать/Скрыть\" в блоке \"Навыки\"")
+    public void clickShowSkill() {
+        showSkill.click();
+    }
+
+    @Step("Выбирает {num} случайныx чек-боксов в блоке \"Навыки\"")
+    public void selectRandomCheckBoxSkill(int num) {
+        for (int i = 0; i < num; i++) {
+            indexOfSkill.$x("./li[" + (int) ((Math.random() * 165) + 1) + "]//input").click();
+        }
+    }
+
+    @Step("Нажать на кнопку \"Показать/Скрыть\" в блоке \"Сертификаты\"")
+    public void clickShowCertificate() {
+        showCertificate.click();
+    }
+
+    @Step("Заполнить текстом {text} поле \"Сертификаты\" в блоке \"Сертификаты\"")
+    public void fillCertificateCertificate(String text) {
+        certificateСertificate.sendKeys(text);
+    }
+
+    @Step("Заполнить текстом {text} поле \"Курсы\" в блоке \"Сертификаты\"")
+    public void fillCoursesCertificate(String text) {
+        coursesСertificate.sendKeys(text);
+    }
+
+    @Step("Проверяет, что элемента \"Сертификаты\" нет на странице")
+    public void checkElementOnPageCertificate() {
+        WebChecks.elementAbsentOnPage(certificateСertificate, 2);
+    }
+
+    @Step("Нажать на кнопку \"Показать/Скрыть\" в блоке \"Статус сотрудника\"")
+    public void clickShowStatusEmployee() {
+        showStatusEmployee.click();
+    }
+
+    @Step("Выбирает {num} случайныx чек-боксов в блоке \"Статус сотрудника\"")
+    public void selectRandomCheckBoxStatusEmployee(int num) {
+        for (int i = 0; i < num; i++) {
+            indexOfStatusEmployee.$x("./div[" + (int) ((Math.random() * 3) + 1) + "]/input[@type='checkbox']").click();
+        }
+    }
+
+    @Step("Проверяет, что чекбокса \"Работает\" нет на странице")
+    public void checkElementOnPageStatusEmployee() {
+        WebChecks.elementAbsentOnPage(indexOfStatusEmployee.$x("./div[1]/input[@type='checkbox']"), 2);
     }
 
 

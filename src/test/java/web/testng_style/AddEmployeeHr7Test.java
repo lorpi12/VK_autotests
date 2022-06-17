@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayDeque;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -484,6 +485,168 @@ public class AddEmployeeHr7Test extends MainTest {
     private void step13_5() {
         Selenide.switchTo().window(0);
         Assert.assertEquals(addEmployeePage.getCitizenship(), "");
+
     }
+
+    @DataProvider
+    public Object[][] dataTest14() {
+        return new Object[][]{
+                {"qwert@qqqqq.qqq"}
+        };
+    }
+
+    @Test(dataProvider = "dataTest14")
+    public void Test14(String mail) {
+        step14_1(mail);
+    }
+
+    @Step("Шаг №1")
+    private void step14_1(String mail) {
+        addEmployeePage.fillCorporationMail(mail);
+        Assert.assertEquals(addEmployeePage.getCorporationMail(), mail);
+    }
+
+    @Test
+    public void Test14_2() {
+        step14_2_1();
+        step14_2_2();
+        step14_2_3();
+        step14_2_4();
+    }
+
+    @Step("Шаг №1")
+    private void step14_2_1() {
+        addEmployeePage.clickShowQualification();
+    }
+
+    @Step("Шаг №2")
+    private void step14_2_2() {
+        addEmployeePage.selectRandomCheckBoxQualification(3);
+    }
+
+    @Step("Шаг №3")
+    private void step14_2_3() {
+        addEmployeePage.clickShowQualification();
+    }
+
+    @Step("Шаг №4")
+    private void step14_2_4() {
+        WebChecks.textAbsentOnPage("Общие квалификации: Автоматизированное тестирование", 2);
+    }
+
+    @Test
+    public void Test15() {
+        step15_1();
+        step15_2();
+        step15_3();
+    }
+
+    @Step("Шаг №1")
+    private void step15_1() {
+        addEmployeePage.clickShowQualification();
+    }
+
+    @Step("Шаг №2")
+    private void step15_2() {
+        addEmployeePage.clickAddObjectQualification();
+    }
+
+    @Step("Шаг №3")
+    private void step15_3() {
+        Selenide.switchTo().window(1);
+        WebChecks.textVisibleOnPage("Добавить Показатель квалификации", 2);
+    }
+
+    @Test
+    public void Test16() {
+        step16_1();
+        step16_2();
+        step16_3();
+        step16_4();
+    }
+
+    @Step("Шаг №1")
+    private void step16_1() {
+        addEmployeePage.clickShowSkill();
+    }
+
+    @Step("Шаг №2")
+    private void step16_2() {
+        addEmployeePage.selectRandomCheckBoxSkill(3);
+    }
+
+    @Step("Шаг №3")
+    private void step16_3() {
+        addEmployeePage.clickShowSkill();
+    }
+
+    @Step("Шаг №4")
+    private void step16_4() {
+        WebChecks.textAbsentOnPage("Языки программирования: C# 5.0", 2);
+    }
+
+    @Test
+    public void Test18() {
+        step18_1();
+        step18_2();
+        step18_3();
+        step18_4();
+        step18_5();
+    }
+
+    @Step("Шаг №1")
+    private void step18_1() {
+        addEmployeePage.clickShowCertificate();
+    }
+
+    @Step("Шаг №2")
+    private void step18_2() {
+        addEmployeePage.fillCertificateCertificate("Сертификаты");
+    }
+
+    @Step("Шаг №3")
+    private void step18_3() {
+        addEmployeePage.fillCoursesCertificate("Курсы");
+    }
+
+    @Step("Шаг №4")
+    private void step18_4() {
+        addEmployeePage.clickShowCertificate();
+    }
+
+    @Step("Шаг №5")
+    private void step18_5() {
+        addEmployeePage.checkElementOnPageCertificate();
+    }
+
+    @Test
+    public void Test19() {
+        step19_1();
+        step19_2();
+        step19_3();
+        step19_4();
+
+    }
+
+    @Step("Шаг №1")
+    private void step19_1() {
+        addEmployeePage.clickShowStatusEmployee();
+    }
+
+    @Step("Шаг №2")
+    private void step19_2() {
+        addEmployeePage.selectRandomCheckBoxStatusEmployee(2);
+    }
+
+    @Step("Шаг №3")
+    private void step19_3() {
+        addEmployeePage.clickShowStatusEmployee();
+    }
+
+    @Step("Шаг №4")
+    private void step19_4() {
+        addEmployeePage.checkElementOnPageStatusEmployee();
+    }
+
 
 }
