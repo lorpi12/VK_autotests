@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.lanit.at</groupId>
-    <artifactId>hrm-autotests</artifactId>
+    <artifactId>VK_autotests</artifactId>
     <version>1.2-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -45,16 +45,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
                 <configuration>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/suite.xml</suiteXmlFile>
-                    </suiteXmlFiles>
-                    <testFailureIgnore>false</testFailureIgnore>
-                    <skipTests>false</skipTests>
-                    <argLine>
-                        -Dcucumber.filter.tags="${tags}"
-                        -Dfile.encoding=UTF-8
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                    </argLine>
+
                     <systemPropertyVariables>
                         <base.dir>${project.basedir}/</base.dir>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
@@ -77,43 +68,6 @@
                 <configuration>
                     <reportDirectory>${project.build.directory}/allure-report</reportDirectory>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <version>${aspectj-maven-plugin.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjtools</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <source>${java.source}</source>
-                    <target>${java.source}</target>
-                    <complianceLevel>${java.source}</complianceLevel>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <weaveDependencies>
-                        <weaveDependency>
-                            <groupId>io.cucumber</groupId>
-                            <artifactId>cucumber-testng</artifactId>
-                        </weaveDependency>
-                        <weaveDependency>
-                            <groupId>io.cucumber</groupId>
-                            <artifactId>cucumber-core</artifactId>
-                        </weaveDependency>
-                    </weaveDependencies>
-                    <XnoInline>true</XnoInline>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
@@ -230,6 +184,44 @@
             <artifactId>postgresql</artifactId>
             <version>42.3.3</version>
         </dependency>
+
+        <!--spring-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.2.3.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.2.3.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.2.3.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.2.4.RELEASE</version>
+        </dependency>
+
+        <!--crypto-->
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-maven-plugin</artifactId>
+            <version>1.18.20.0</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>

@@ -99,5 +99,4 @@ public class WindowWebSteps extends AbstractWebSteps {
         pageManager.setCurrentPage(page);
     }
 
-
 }

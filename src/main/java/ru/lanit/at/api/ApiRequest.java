@@ -33,32 +33,27 @@ public class ApiRequest {
     private String path;
     private Method method;
     private String body;
-    private String fullUrl;
     private Response response;
 
     private RequestSpecBuilder builder;
 
-    public ApiRequest(RequestModel requestModel) {
+    public ApiRequest(String path, String method, String token) {
         this.builder = new RequestSpecBuilder();
-
         this.baseUrl = CONFIGURATIONS.getBaseUrl();
-        this.path = replaceVarsIfPresent(requestModel.getPath());
-        this.method = Method.valueOf(requestModel.getMethod());
-        this.body = requestModel.getBody();
-        this.fullUrl = replaceVarsIfPresent(requestModel.getUrl());
+        this.path = replaceVarsIfPresent(path);
+        this.method = Method.valueOf(method);
 
-        URI uri;
-
-        if (!fullUrl.isEmpty()) {
-            uri = URI.create(fullUrl.replace(" ", "+"));
-        } else {
-            uri = URI.create(baseUrl);
-            builder.setBasePath(path);
-        }
+        URI uri = URI.create(baseUrl);
+        builder.setBasePath(path);
 
         this.builder.setBaseUri(uri);
-        setBodyFromFile();
         addLoggingListener();
+        setQueryDefault(token);
+    }
+
+    private void setQueryDefault(String token) {
+        builder.addQueryParam("v", "5.131");
+        builder.addQueryParam("access_token", token);
     }
 
     public Response getResponse() {
