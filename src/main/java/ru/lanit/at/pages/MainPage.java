@@ -1,22 +1,35 @@
 package ru.lanit.at.pages;
 
 import com.codeborne.selenide.SelenideElement;
-import io.qameta.allure.Step;
-import ru.lanit.at.utils.web.annotations.Name;
 import ru.lanit.at.utils.web.pagecontext.WebPage;
 
 import static com.codeborne.selenide.Selenide.$x;
 
-@Name(value = "Главная страница")
 public class MainPage extends WebPage {
 
-    @Name("ссылка сотрудники")
-    private SelenideElement linkEmployees = $x("//tr[@class='model-employee']/th[@scope='row']/a");
+    private SelenideElement mySyte = $x("//li[@id='l_pr']/a");
 
-    @Step("Нажать на cсылку \"сотрудники\"")
-    public void clickOnLinkEmployees() {
-        linkEmployees.click();
+    private SelenideElement messanger = $x("//li[@id='l_msg']/a");
+
+    private SelenideElement communities = $x("//li[@id='l_gr']/a");
+
+    private SelenideElement photo = $x("//li[@id='l_ph']/a");
+
+
+    public void clickMySyte() {
+        mySyte.click();
     }
 
+    public void clickMessanger() {
+        messanger.click();
+    }
+
+    public void clickCommunities() {
+        communities.click();
+    }
+
+    public void clickPhoto() {
+        photo.click();
+    }
 
 }
