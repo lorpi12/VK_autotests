@@ -37,13 +37,8 @@ public class ProfilePage extends WebPage {
 
     private SelenideElement photoDeleteConfirm = $x("//div[@class='box_controls_buttons fl_r']/button[@class='FlatButton FlatButton--primary FlatButton--size-m']");
 
-    public String editSmallInfo(String info) {
-        if (smallInfo.getText() == "") {
-            smallInfo.sendKeys(info);
-            return "";
-        } else {
-            return smallInfo.getText();
-        }
+    public void sendSmallInfo(String info) {
+        smallInfo.sendKeys(info);
     }
 
     public String getSmallInfo() {
@@ -66,26 +61,21 @@ public class ProfilePage extends WebPage {
         return familyStatusInfo.getValue();
     }
 
-    public void selectFamilyStatus(int value){
+    public void selectFamilyStatus(int value) {
         familyStatus.click();
         familyValue.$x(String.format(".//li[%d]", value)).click();
     }
 
-    public void clearCity(){
+    public void clearCity() {
         city.clear();
     }
 
-    public void clearSmallInfo(){
+    public void clearSmallInfo() {
         smallInfo.clear();
     }
 
-    public String editCity(String data) {
-        if (city.getValue() == "") {
-            city.sendKeys(data);
-            return "";
-        } else {
-            return city.getValue();
-        }
+    public void sendCity(String data) {
+        city.sendKeys(data);
     }
 
     public void clickSaveButton() {

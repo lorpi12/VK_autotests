@@ -9,7 +9,9 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class GroupPage extends WebPage {
 
-    private SelenideElement createDiscussion = $x("//aside[@aria-label='Обсуждения']//a[@class='page_module_upload']");
+    private SelenideElement createDiscussion = $x("//a[@title='Обсуждения']");
+
+    private SelenideElement addDiscussion = $x("//div[@data-tab='discussions']//a");
 
     private SelenideElement titleDiscussion = $x("//input[@id='bnt_title']");
 
@@ -39,9 +41,9 @@ public class GroupPage extends WebPage {
 
     private SelenideElement returnToGroup= $x("//a[@class='ui_crumb'][1]");
 
-    private SelenideElement buttonPageActions= $x("//button[@id='page_actions_btn']");
+    private SelenideElement buttonPageActions= $x("//div[@class='ui_actions_menu_wrap _ui_menu_wrap page-group-actions page-group-actions--event']");
 
-    private SelenideElement leaveGroup= $x("//a[@class='page_actions_item '][1]");
+    private SelenideElement leaveGroup= $x("//div[@id='page_subscribers']//div[@class='ui_actions_menu _ui_menu page-group-actions__inner']/div[1]");
 
     private SelenideElement leaveGroupConfirm= $x("//button[@class='FlatButton FlatButton--primary FlatButton--size-m']");
 
@@ -49,6 +51,7 @@ public class GroupPage extends WebPage {
 
     public void clickCreateDiscussion() {
         createDiscussion.click();
+        addDiscussion.click();
     }
 
     public void setTitleDiscussion(String title) {
@@ -96,7 +99,7 @@ public class GroupPage extends WebPage {
 
     public void leaveInGroup(){
         returnToGroup.click();
-        buttonPageActions.click();
+        buttonPageActions.hover();
         leaveGroup.hover().click();
         leaveGroupConfirm.click();
     }

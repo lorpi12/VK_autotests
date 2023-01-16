@@ -78,12 +78,12 @@ public class test_EditProfile extends MainWebClass {
     }
 
     private void fillEmptyInfo() {
-        String smallInfo = profilePage.editSmallInfo("Тестировщик");
-        Assert.assertEquals(smallInfo, "");
+        Assert.assertEquals(profilePage.getSmallInfo(), "");
+        profilePage.sendSmallInfo("Тестировщик");
         String familyStatus = profilePage.editFamilyStatus(2);
         Assert.assertEquals(familyStatus, "0");
-        String city = profilePage.editCity("Москва");
-        Assert.assertEquals(city, "");
+        Assert.assertEquals(profilePage.getCity(), "");
+        profilePage.sendCity("Москва");
         profilePage.clickSaveButton();
     }
 
