@@ -15,13 +15,14 @@ import ru.lanit.at.utils.Sleep;
 import java.io.IOException;
 
 
-public class test_Photo extends MainWebClass {
+public class TestDiscussion extends MainWebClass {
 
     private final WindowWebSteps windowWebSteps = new WindowWebSteps(null);
     private final AuthPage authPage = new AuthPage();
     private final PasswordPage passPage = new PasswordPage();
     private final MainPage mainPage = new MainPage();
-    private final PhotoPage photoPage = new PhotoPage();
+    private final CommunityPage communityPage = new CommunityPage();
+    private final GroupPage groupPage = new GroupPage();
 
     private Login login;
 
@@ -44,14 +45,13 @@ public class test_Photo extends MainWebClass {
     public void auth() {
         authPage.fillPhoneField(Crypto.decrypt(login.getLogin()))
                 .clickEnterButton();
-        passPage.fillPhoneField(Crypto.decrypt(login.getPassword()))
+        passPage.fillPasswdField(Crypto.decrypt(login.getPassword()))
                 .clickContinueButton();
     }
 
     @AfterMethod
     public void afterTest() {
-        photoPage.deletePublicAlbum();
-        Sleep.pauseSec(1);
+        groupPage.leaveInGroup();
     }
 
     @AfterClass
@@ -61,39 +61,43 @@ public class test_Photo extends MainWebClass {
 
     @Test
     public void Test() {
-        mainPage.clickPhoto();
-        createPrivateAlbum();
+        mainPage.clickCommunities();
+        createGroup();
+        createDiscussion();
+        pinDiscussion();
+        workWithComment();
+    }
+
+    public void createGroup() {
+        communityPage.clickNewGroup();
+        communityPage.clickGroupTitleInterests();
+        communityPage.setGroupTitle("Группа");
+        communityPage.setGroupTheme();
+        communityPage.clickButtonCreateGroup();
+    }
+
+    public void createDiscussion() {
+        groupPage.clickCreateDiscussion();
+        groupPage.setTitleDiscussion("Название обсуждения");
+        groupPage.setTextDiscussion("Текст обсуждения");
+        groupPage.clickButtonCreateDiscussion();
+    }
+
+    public void pinDiscussion() {
+        groupPage.clickEditDiscussion();
+        groupPage.clickPinDiscussion();
+        groupPage.clickConfirmPin();
+    }
+
+    public void workWithComment() {
+        groupPage.createComment("Первый коммент");
         Sleep.pauseSec(1);
-        workWithPhoto();
-        windowWebSteps.open(System.getProperty("site.url"));
-        mainPage.clickPhoto();
-        createPublicAlbum();
-        mainPage.clickPhoto();
-        photoPage.clickSelectPrivateAlbum();
+        groupPage.createComment("Второй коммент");
         Sleep.pauseSec(1);
-        photoPage.transferToPublicAlbum();
-        photoPage.deleteAlbum();
+        groupPage.createComment("Третий коммент");
+        Sleep.pauseSec(1);
+        groupPage.editSecondComment("Изменил коммент");
+        groupPage.deleteFirstComment();
     }
-
-    public void createPrivateAlbum() {
-        photoPage.clickCreateAlbum();
-        photoPage.setTitleAlbum("АльбомПриват");
-        photoPage.setPrivacyControl();
-        photoPage.clickCreateAlbumButton();
-    }
-
-    public void createPublicAlbum() {
-        photoPage.clickCreateAlbum();
-        photoPage.setTitleAlbum("АльбомПаблик");
-        photoPage.clickCreateAlbumButton();
-    }
-
-    public void workWithPhoto() {
-        photoPage.addPhoto();
-        photoPage.makeCoverAlbum();
-        photoPage.addComment("Комментарий к фото");
-        photoPage.markPeople();
-    }
-
 
 }

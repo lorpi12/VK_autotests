@@ -15,7 +15,7 @@ import ru.lanit.at.utils.Sleep;
 import java.io.IOException;
 
 
-public class test_Chat extends MainWebClass {
+public class TestChat extends MainWebClass {
 
     private final WindowWebSteps windowWebSteps = new WindowWebSteps(null);
     private final AuthPage authPage = new AuthPage();
@@ -43,7 +43,7 @@ public class test_Chat extends MainWebClass {
     public void auth() {
         authPage.fillPhoneField(Crypto.decrypt(login.getLogin()))
                 .clickEnterButton();
-        passPage.fillPhoneField(Crypto.decrypt(login.getPassword()))
+        passPage.fillPasswdField(Crypto.decrypt(login.getPassword()))
                 .clickContinueButton();
     }
 

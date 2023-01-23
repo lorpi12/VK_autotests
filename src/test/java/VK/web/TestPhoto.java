@@ -1,10 +1,8 @@
 package VK.web;
 
-import com.codeborne.selenide.Selenide;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.testng.Assert;
 import org.testng.annotations.*;
 import ru.lanit.at.crypto.Crypto;
 import ru.lanit.at.db.config.DataBase;
@@ -17,14 +15,13 @@ import ru.lanit.at.utils.Sleep;
 import java.io.IOException;
 
 
-public class test_EditProfile extends MainWebClass {
+public class TestPhoto extends MainWebClass {
 
     private final WindowWebSteps windowWebSteps = new WindowWebSteps(null);
     private final AuthPage authPage = new AuthPage();
     private final PasswordPage passPage = new PasswordPage();
     private final MainPage mainPage = new MainPage();
-    private final MySytePage mySytePage = new MySytePage();
-    private final ProfilePage profilePage = new ProfilePage();
+    private final PhotoPage photoPage = new PhotoPage();
 
     private Login login;
 
@@ -36,6 +33,7 @@ public class test_EditProfile extends MainWebClass {
         login = loginTable.selectLogin();
     }
 
+
     @BeforeMethod
     public void beforeTest() throws IOException {
         System.getProperties().load(ClassLoader.getSystemResourceAsStream("config/configuration.properties"));
@@ -46,17 +44,13 @@ public class test_EditProfile extends MainWebClass {
     public void auth() {
         authPage.fillPhoneField(Crypto.decrypt(login.getLogin()))
                 .clickEnterButton();
-        passPage.fillPhoneField(Crypto.decrypt(login.getPassword()))
+        passPage.fillPasswdField(Crypto.decrypt(login.getPassword()))
                 .clickContinueButton();
     }
 
     @AfterMethod
     public void afterTest() {
-        profilePage.clearSmallInfo();
-        profilePage.selectFamilyStatus(1);
-        profilePage.clearCity();
-        profilePage.clickSaveButton();
-        profilePage.deletePhoto();
+        photoPage.deletePublicAlbum();
         Sleep.pauseSec(1);
     }
 
@@ -67,30 +61,39 @@ public class test_EditProfile extends MainWebClass {
 
     @Test
     public void Test() {
-        mainPage.clickMySyte();
-        mySytePage.clickEditProfile();
-        fillEmptyInfo();
+        mainPage.clickPhoto();
+        createPrivateAlbum();
         Sleep.pauseSec(1);
-        Selenide.refresh();
-        testNewData();
-        profilePage.uploadPhoto();
-        profilePage.verifyPhotoUpload();
+        workWithPhoto();
+        windowWebSteps.open(System.getProperty("site.url"));
+        mainPage.clickPhoto();
+        createPublicAlbum();
+        mainPage.clickPhoto();
+        photoPage.clickSelectPrivateAlbum();
+        Sleep.pauseSec(1);
+        photoPage.transferToPublicAlbum();
+        photoPage.deleteAlbum();
     }
 
-    private void fillEmptyInfo() {
-        Assert.assertEquals(profilePage.getSmallInfo(), "");
-        profilePage.sendSmallInfo("Тестировщик");
-        String familyStatus = profilePage.editFamilyStatus(2);
-        Assert.assertEquals(familyStatus, "0");
-        Assert.assertEquals(profilePage.getCity(), "");
-        profilePage.sendCity("Москва");
-        profilePage.clickSaveButton();
+    public void createPrivateAlbum() {
+        photoPage.clickCreateAlbum();
+        photoPage.setTitleAlbum("АльбомПриват");
+        photoPage.setPrivacyControl();
+        photoPage.clickCreateAlbumButton();
     }
 
-    private void testNewData() {
-        Assert.assertEquals(profilePage.getSmallInfo(), "Тестировщик");
-        Assert.assertEquals(profilePage.getFamilyStatus(), "1");
-        Assert.assertEquals(profilePage.getCity(), "Москва");
+    public void createPublicAlbum() {
+        photoPage.clickCreateAlbum();
+        photoPage.setTitleAlbum("АльбомПаблик");
+        photoPage.clickCreateAlbumButton();
     }
+
+    public void workWithPhoto() {
+        photoPage.addPhoto("src/test/resources/photoFile/kotik.jpg");
+        photoPage.makeCoverAlbum();
+        photoPage.addComment("Комментарий к фото");
+        photoPage.markPeople();
+    }
+
 
 }

@@ -1,8 +1,10 @@
 package VK.web;
 
+import com.codeborne.selenide.Selenide;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.testng.Assert;
 import org.testng.annotations.*;
 import ru.lanit.at.crypto.Crypto;
 import ru.lanit.at.db.config.DataBase;
@@ -15,14 +17,14 @@ import ru.lanit.at.utils.Sleep;
 import java.io.IOException;
 
 
-public class test_Discussion extends MainWebClass {
+public class TestEditProfile extends MainWebClass {
 
     private final WindowWebSteps windowWebSteps = new WindowWebSteps(null);
     private final AuthPage authPage = new AuthPage();
     private final PasswordPage passPage = new PasswordPage();
     private final MainPage mainPage = new MainPage();
-    private final CommunityPage communityPage = new CommunityPage();
-    private final GroupPage groupPage = new GroupPage();
+    private final MySytePage mySytePage = new MySytePage();
+    private final ProfilePage profilePage = new ProfilePage();
 
     private Login login;
 
@@ -34,7 +36,6 @@ public class test_Discussion extends MainWebClass {
         login = loginTable.selectLogin();
     }
 
-
     @BeforeMethod
     public void beforeTest() throws IOException {
         System.getProperties().load(ClassLoader.getSystemResourceAsStream("config/configuration.properties"));
@@ -45,13 +46,18 @@ public class test_Discussion extends MainWebClass {
     public void auth() {
         authPage.fillPhoneField(Crypto.decrypt(login.getLogin()))
                 .clickEnterButton();
-        passPage.fillPhoneField(Crypto.decrypt(login.getPassword()))
+        passPage.fillPasswdField(Crypto.decrypt(login.getPassword()))
                 .clickContinueButton();
     }
 
     @AfterMethod
     public void afterTest() {
-        groupPage.leaveInGroup();
+        profilePage.clearSmallInfo();
+        profilePage.selectFamilyStatus(1);
+        profilePage.clearCity();
+        profilePage.clickSaveButton();
+        profilePage.deletePhoto();
+        Sleep.pauseSec(1);
     }
 
     @AfterClass
@@ -61,43 +67,30 @@ public class test_Discussion extends MainWebClass {
 
     @Test
     public void Test() {
-        mainPage.clickCommunities();
-        createGroup();
-        createDiscussion();
-        pinDiscussion();
-        workWithComment();
-    }
-
-    public void createGroup() {
-        communityPage.clickNewGroup();
-        communityPage.clickGroupTitleInterests();
-        communityPage.setGroupTitle("Группа");
-        communityPage.setGroupTheme();
-        communityPage.clickButtonCreateGroup();
-    }
-
-    public void createDiscussion() {
-        groupPage.clickCreateDiscussion();
-        groupPage.setTitleDiscussion("Название обсуждения");
-        groupPage.setTextDiscussion("Текст обсуждения");
-        groupPage.clickButtonCreateDiscussion();
-    }
-
-    public void pinDiscussion() {
-        groupPage.clickEditDiscussion();
-        groupPage.clickPinDiscussion();
-        groupPage.clickConfirmPin();
-    }
-
-    public void workWithComment() {
-        groupPage.createComment("Первый коммент");
+        mainPage.clickMySyte();
+        mySytePage.clickEditProfile();
+        fillEmptyInfo();
         Sleep.pauseSec(1);
-        groupPage.createComment("Второй коммент");
-        Sleep.pauseSec(1);
-        groupPage.createComment("Третий коммент");
-        Sleep.pauseSec(1);
-        groupPage.editSecondComment();
-        groupPage.deleteFirstComment();
+        Selenide.refresh();
+        testNewData();
+        profilePage.uploadPhoto("src/test/resources/photoFile/kotik.jpg");
+        profilePage.verifyPhotoUpload("src", "https://vk.com/images/camera_100.png");
+    }
+
+    private void fillEmptyInfo() {
+        Assert.assertEquals(profilePage.getSmallInfo(), "");
+        profilePage.sendSmallInfo("Тестировщик");
+        String familyStatus = profilePage.editFamilyStatus(2);
+        Assert.assertEquals(familyStatus, "0");
+        Assert.assertEquals(profilePage.getCity(), "");
+        profilePage.sendCity("Москва");
+        profilePage.clickSaveButton();
+    }
+
+    private void testNewData() {
+        Assert.assertEquals(profilePage.getSmallInfo(), "Тестировщик");
+        Assert.assertEquals(profilePage.getFamilyStatus(), "1");
+        Assert.assertEquals(profilePage.getCity(), "Москва");
     }
 
 }

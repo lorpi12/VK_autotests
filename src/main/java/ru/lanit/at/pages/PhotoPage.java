@@ -2,6 +2,7 @@ package ru.lanit.at.pages;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
 import ru.lanit.at.utils.Sleep;
 import ru.lanit.at.utils.web.pagecontext.WebPage;
@@ -59,34 +60,40 @@ public class PhotoPage extends WebPage {
 
     private SelenideElement selectPublicAlbum = $x("//div[@id='photos_container_albums']/div[2]/a");
 
-
+    @Step("Создание альбома")
     public void clickCreateAlbum() {
         createAlbum.click();
     }
 
+    @Step("Заполнить заголовок альбома")
     public void setTitleAlbum(String name) {
         titleAlbum.sendKeys(name);
     }
 
+    @Step("Установить настройки приватности")
     public void setPrivacyControl() {
         privacyControlButton.click();
         privacyControlItem.click();
     }
 
+    @Step("Нажать на кнопку создания альбома")
     public void clickCreateAlbumButton() {
         createAlbumButton.click();
     }
 
-    public void addPhoto() {
-        addPhotoArea.uploadFile(new File("src/test/resources/photoFile/kotik.jpg"));
+    @Step("Добавить фото")
+    public void addPhoto(String photoPath) {
+        addPhotoArea.uploadFile(new File(photoPath));
     }
 
+    @Step("Установить фото обложкой альбома")
     public void makeCoverAlbum() {
         photoEditButton.click();
         moreButton.hover();
         makeCoverAlbum.click();
     }
 
+    @Step("Отметить человека на фото")
     public void markPeople() {
         markPeople.click();
         Sleep.pauseSec(1);
@@ -95,14 +102,17 @@ public class PhotoPage extends WebPage {
         markPeopleConfirm.click();
     }
 
+    @Step("Добавить комментарий к фото")
     public void addComment(String comment) {
         commentArea.sendKeys(comment, Keys.ENTER);
     }
 
+    @Step("Перейти в приватный альбом")
     public void clickSelectPrivateAlbum() {
         selectPrivateAlbum.click();
     }
 
+    @Step("Перевести фото в публичный альбом")
     public void transferToPublicAlbum() {
         photoContainer.click();
         moreButton.hover();
@@ -111,13 +121,15 @@ public class PhotoPage extends WebPage {
         photoEditButtonClose.click();
     }
 
+    @Step("Удалить альбом")
     public void deleteAlbum() {
         editAlbum.click();
         deleteAlbum.click();
         deleteAlbumConfirm.click();
     }
 
-    public void deletePublicAlbum(){
+    @Step("Удалить публичный альбом")
+    public void deletePublicAlbum() {
         selectPublicAlbum.click();
         deleteAlbum();
     }

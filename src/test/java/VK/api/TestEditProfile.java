@@ -20,7 +20,7 @@ import ru.lanit.at.utils.HttpClient;
 import java.util.HashMap;
 
 
-public class test_EditProfile {
+public class TestEditProfile {
 
     private String token;
 

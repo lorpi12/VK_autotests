@@ -2,6 +2,7 @@ package ru.lanit.at.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import ru.lanit.at.utils.Sleep;
 import ru.lanit.at.utils.web.pagecontext.WebPage;
 
@@ -37,22 +38,27 @@ public class ProfilePage extends WebPage {
 
     private SelenideElement photoDeleteConfirm = $x("//div[@class='box_controls_buttons fl_r']/button[@class='FlatButton FlatButton--primary FlatButton--size-m']");
 
+    @Step("Заполнить краткую информацию")
     public void sendSmallInfo(String info) {
         smallInfo.sendKeys(info);
     }
 
+    @Step("Получить текст из краткой информации")
     public String getSmallInfo() {
         return smallInfo.getText();
     }
 
+    @Step("Получить значение семейного статуса")
     public String getFamilyStatus() {
         return familyStatusInfo.getValue();
     }
 
+    @Step("Получить значение города")
     public String getCity() {
         return city.getValue();
     }
 
+    @Step("Изменить семейный статус")
     public String editFamilyStatus(int value) {
         if (familyStatusInfo.getValue().equals("0")) {
             selectFamilyStatus(value);
@@ -61,40 +67,48 @@ public class ProfilePage extends WebPage {
         return familyStatusInfo.getValue();
     }
 
+    @Step("Выбрать семейный статус")
     public void selectFamilyStatus(int value) {
         familyStatus.click();
         familyValue.$x(String.format(".//li[%d]", value)).click();
     }
 
+    @Step("Очистить поле город")
     public void clearCity() {
         city.clear();
     }
 
+    @Step("Очистить поле краткая информация")
     public void clearSmallInfo() {
         smallInfo.clear();
     }
 
+    @Step("Заполнить поле город")
     public void sendCity(String data) {
         city.sendKeys(data);
     }
 
+    @Step("Нажать на кнопку сохранить")
     public void clickSaveButton() {
         saveButton.click();
     }
 
-    public void uploadPhoto() {
+    @Step("Загрузить фото")
+    public void uploadPhoto(String photoPath) {
         photo.hover();
         photoUpload.shouldBe(Condition.exist).click();
-        photoSelectFile.uploadFile(new File("src/test/resources/photoFile/kotik.jpg"));
+        photoSelectFile.uploadFile(new File(photoPath));
         photoSaveAndContinue.click();
         photoSaveAndContinue.click();
         photoSaveAndContinue.click();
     }
 
-    public void verifyPhotoUpload() {
-        photoImg.shouldNot(Condition.attribute("src", "https://vk.com/images/camera_100.png"));
+    @Step("Подтвердить загрузку фото")
+    public void verifyPhotoUpload(String attribute, String expected) {
+        photoImg.shouldNot(Condition.attribute(attribute, expected));
     }
 
+    @Step("Удалить фото")
     public void deletePhoto() {
         photo.hover();
         photoDelete.click();

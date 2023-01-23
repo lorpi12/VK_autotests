@@ -1,6 +1,7 @@
 package ru.lanit.at.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
 import ru.lanit.at.utils.Sleep;
 import ru.lanit.at.utils.web.pagecontext.WebPage;
@@ -21,23 +22,28 @@ public class CommunityPage extends WebPage {
 
     private SelenideElement cancelTutorial = $x("//div[@class='groups_welcome_box_close']");
 
+    @Step("Создание новой группы")
     public void clickNewGroup() {
         newGroup.click();
     }
 
+    @Step("Нажать по полю 'интересы'")
     public void clickGroupTitleInterests() {
         groupTitleInterests.click();
     }
 
+    @Step("Заполнить поле 'название'")
     public void setGroupTitle(String name) {
         groupTitle.sendKeys(name);
     }
 
+    @Step("Заполнить поле 'тема'")
     public void setGroupTheme() {
         selectTheme.click();
         selectTheme.sendKeys(Keys.ENTER);
     }
 
+    @Step("Нажать кнопку создания группы")
     public void clickButtonCreateGroup() {
         buttonCreateGroup.click();
     }

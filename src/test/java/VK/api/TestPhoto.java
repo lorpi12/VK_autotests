@@ -19,7 +19,7 @@ import ru.lanit.at.utils.HttpClient;
 import java.util.HashMap;
 
 
-public class test_Photo {
+public class TestPhoto {
 
     private String token;
 

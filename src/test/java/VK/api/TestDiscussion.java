@@ -18,7 +18,7 @@ import ru.lanit.at.utils.ContextHolder;
 import java.util.HashMap;
 
 
-public class test_Discussion {
+public class TestDiscussion {
 
     private String token;
 

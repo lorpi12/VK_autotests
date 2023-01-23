@@ -3,6 +3,7 @@ package ru.lanit.at.pages;
 import com.codeborne.selenide.ClickOptions;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
 import ru.lanit.at.utils.Sleep;
 import ru.lanit.at.utils.web.pagecontext.WebPage;
@@ -47,37 +48,45 @@ public class MessangerPage extends WebPage {
 
     private SelenideElement leaveChatConfirm = $x("//button[@class='FlatButton FlatButton--primary FlatButton--size-m']");
 
+    @Step("Создать новый чат")
     public void clickNewChat() {
         newChat.click();
     }
 
+    @Step("Задать название чата")
     public void setNameChat(String name) {
         nameChat.sendKeys(name);
     }
 
+    @Step("Нажать на кнопку создания чата")
     public void clickCreateChatButton() {
         createChatButton.click();
     }
 
+    @Step("Нажать на кнопку перехода в настройки")
     public void clickChatSettingsButton() {
         chatSettingsButton.click();
     }
 
+    @Step("Задать название чата")
     public void setNameChatSettings(String name) {
         nameChatSettings.click();
         nameChatSettingsArea.sendKeys(name, Keys.ENTER);
     }
 
+    @Step("Добавить нового участника чата")
     public void clickAddNewMember() {
         addNewMember.click();
         selectMember.click();
         confirmMember.click();
     }
 
+    @Step("Выйти из настроек чата")
     public void exitChatSettings() {
         exitChatSettings.click();
     }
 
+    @Step("Заполнить поле для сообщений")
     public void setMessageArea(String message) {
         messageArea.click();
         messageArea.clear();
@@ -85,18 +94,21 @@ public class MessangerPage extends WebPage {
         messageArea.sendKeys(Keys.ENTER);
     }
 
+    @Step("Изменить сообщение")
     public void editMessage(String message) {
         editMessageBody.hover();
         editMessage.hover().click();
         setMessageArea(message);
     }
 
+    @Step("Закрепить сообщение")
     public void pinMessage() {
         Sleep.pauseSec(1);
         editMessageBody.click();
         pinMessage.click();
     }
 
+    @Step("Выйти из чата")
     public void exitFromChat() {
         chatMenu.hover();
         leaveChat.hover().click();

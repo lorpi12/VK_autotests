@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 
-public class test_Chat {
+public class TestChat {
 
     private String token;
 
