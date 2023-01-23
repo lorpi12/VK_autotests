@@ -43,74 +43,60 @@ public class test_Discussion {
     }
 
     private Response createGroup() {
-        ApiRequest apiRequest = new ApiRequest("/groups.create", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("title", "Группа");
         hashMap.put("type", "group");
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/groups.create", hashMap);
     }
 
     private Response createDiscussion() {
-        ApiRequest apiRequest = new ApiRequest("/board.addTopic", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("group_id", ContextHolder.getValue("groupId"));
         hashMap.put("title", "Название обсуждения");
         hashMap.put("text", "Текст обсуждения");
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/board.addTopic", hashMap);
     }
 
     private Response fixDiscussion() {
-        ApiRequest apiRequest = new ApiRequest("/board.fixTopic", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("group_id", ContextHolder.getValue("groupId"));
         hashMap.put("topic_id", ContextHolder.getValue("discussionId"));
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/board.fixTopic", hashMap);
     }
 
     private Response createComment(String message) {
-        ApiRequest apiRequest = new ApiRequest("/board.createComment", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("group_id", ContextHolder.getValue("groupId"));
         hashMap.put("topic_id", ContextHolder.getValue("discussionId"));
         hashMap.put("message", message);
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/board.createComment", hashMap);
     }
 
     private Response editComment(String message, String commentId) {
-        ApiRequest apiRequest = new ApiRequest("/board.editComment", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("group_id", ContextHolder.getValue("groupId"));
         hashMap.put("topic_id", ContextHolder.getValue("discussionId"));
         hashMap.put("comment_id", ContextHolder.getValue(commentId));
         hashMap.put("message", message);
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/board.editComment", hashMap);
     }
 
     private Response deleteComment(String commentId) {
-        ApiRequest apiRequest = new ApiRequest("/board.deleteComment", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("group_id", ContextHolder.getValue("groupId"));
         hashMap.put("topic_id", ContextHolder.getValue("discussionId"));
         hashMap.put("comment_id", ContextHolder.getValue(commentId));
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/board.deleteComment", hashMap);
     }
 
     private Response deleteGroup() {
-        ApiRequest apiRequest = new ApiRequest("/groups.leave", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("group_id", ContextHolder.getValue("groupId"));
+        return request("/groups.leave", hashMap);
+    }
+
+    private Response request(String path, HashMap<String, String> hashMap) {
+        ApiRequest apiRequest = new ApiRequest(path, "GET", token);
         apiRequest.setQuery(hashMap);
         apiRequest.sendRequest();
         return apiRequest.getResponse();

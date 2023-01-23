@@ -46,19 +46,16 @@ public class test_EditProfile {
     }
 
     private Response getProfileInfo() {
-        ApiRequest apiRequest = new ApiRequest("/account.getProfileInfo", "GET",token);
+        ApiRequest apiRequest = new ApiRequest("/account.getProfileInfo", "GET", token);
         apiRequest.sendRequest();
         return apiRequest.getResponse();
     }
 
     private Response setProfileInfo() {
-        ApiRequest apiRequest = new ApiRequest("/account.saveProfileInfo", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("relation", "1");
         hashMap.put("home_town", "Москва");
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/account.saveProfileInfo", hashMap);
     }
 
 
@@ -85,52 +82,49 @@ public class test_EditProfile {
         HttpClient.savePhotoFile(url, "src/test/resources/photoFile/kotik.jpg", 0);
         Response savePhoto = saveOwnerPhoto();
         Assert.assertEquals(savePhoto.getStatusCode(), 200);
-
     }
 
     private Response getUploadServer() {
-        ApiRequest apiRequest = new ApiRequest("/photos.getOwnerPhotoUploadServer", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("owner_id", "753224346");
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/photos.getOwnerPhotoUploadServer", hashMap);
     }
 
     private Response saveOwnerPhoto() {
-        ApiRequest apiRequest = new ApiRequest("/photos.saveOwnerPhoto", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("server", ContextHolder.getValue("server"));
         hashMap.put("hash", ContextHolder.getValue("hash"));
         hashMap.put("photo", ContextHolder.getValue("photo"));
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/photos.saveOwnerPhoto", hashMap);
     }
 
     private Response deletePhoto() {
-        ApiRequest apiRequest = new ApiRequest("/photos.delete", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("owner_id", "753224346");
         hashMap.put("photo_id", String.valueOf(getIdProfilePhoto()));
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/photos.delete", hashMap);
     }
 
     private int getIdProfilePhoto() {
-        ApiRequest apiRequest = new ApiRequest("/photos.getProfile", "GET",token);
+        ApiRequest apiRequest = new ApiRequest("/photos.getProfile", "GET", token);
         apiRequest.sendRequest();
         return apiRequest.getResponse().getBody().jsonPath().get("response.items[0].id");
     }
 
     private void setDefaultProfileInfo() {
-        ApiRequest apiRequest = new ApiRequest("/account.saveProfileInfo", "GET",token);
+        ApiRequest apiRequest = new ApiRequest("/account.saveProfileInfo", "GET", token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("relation", "0");
         hashMap.put("home_town", "");
         apiRequest.setQuery(hashMap);
         apiRequest.sendRequest();
+    }
+
+    private Response request(String path, HashMap<String, String> hashMap) {
+        ApiRequest apiRequest = new ApiRequest(path, "GET", token);
+        apiRequest.setQuery(hashMap);
+        apiRequest.sendRequest();
+        return apiRequest.getResponse();
     }
 
 

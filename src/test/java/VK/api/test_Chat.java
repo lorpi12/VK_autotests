@@ -44,74 +44,60 @@ public class test_Chat {
 
 
     private Response createChat() {
-        ApiRequest apiRequest = new ApiRequest("/messages.createChat", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("title", "Важно");
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/messages.createChat", hashMap);
     }
 
     private Response editChatTitle() {
-        ApiRequest apiRequest = new ApiRequest("/messages.editChat", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("title", "Ну очень важная беседа");
         hashMap.put("chat_id", ContextHolder.getValue("chatId"));
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/messages.editChat", hashMap);
     }
 
     private Response addChatUser() {
-        ApiRequest apiRequest = new ApiRequest("/messages.addChatUser", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("chat_id", ContextHolder.getValue("chatId"));
         hashMap.put("user_id", "194237192");
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/messages.addChatUser", hashMap);
     }
 
     private Response sendMessage(String message) {
-        ApiRequest apiRequest = new ApiRequest("/messages.send", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("chat_id", ContextHolder.getValue("chatId"));
         Random random = new Random();
         hashMap.put("random_id", String.valueOf(random.nextInt(10000)));
         hashMap.put("message", message);
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/messages.send", hashMap);
     }
 
     private Response editMessage(String message) {
-        ApiRequest apiRequest = new ApiRequest("/messages.edit", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         int peer_id = Integer.parseInt(ContextHolder.getValue("chatId")) + 2000000000;
         hashMap.put("peer_id", String.valueOf(peer_id));
         hashMap.put("message", message);
         hashMap.put("message_id", ContextHolder.getValue("messageId"));
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/messages.edit", hashMap);
     }
 
     private Response pinMessage() {
-        ApiRequest apiRequest = new ApiRequest("/messages.pin", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         int peer_id = Integer.parseInt(ContextHolder.getValue("chatId")) + 2000000000;
         hashMap.put("peer_id", String.valueOf(peer_id));
         hashMap.put("message_id", ContextHolder.getValue("messageId"));
-        apiRequest.setQuery(hashMap);
-        apiRequest.sendRequest();
-        return apiRequest.getResponse();
+        return request("/messages.pin", hashMap);
     }
 
     private Response deleteChat() {
-        ApiRequest apiRequest = new ApiRequest("/messages.deleteConversation", "GET",token);
         HashMap<String, String> hashMap = new HashMap<>();
         int peer_id = Integer.parseInt(ContextHolder.getValue("chatId")) + 2000000000;
         hashMap.put("peer_id", String.valueOf(peer_id));
+        return request("/messages.deleteConversation", hashMap);
+    }
+
+    private Response request(String path, HashMap<String, String> hashMap) {
+        ApiRequest apiRequest = new ApiRequest(path, "GET", token);
         apiRequest.setQuery(hashMap);
         apiRequest.sendRequest();
         return apiRequest.getResponse();
