@@ -1,6 +1,7 @@
 package VK.api;
 
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import org.springframework.context.ApplicationContext;
@@ -45,19 +46,20 @@ public class TestEditProfile {
         uploadPhoto();
     }
 
+    @Step("Получить инфо о профиле")
     private Response getProfileInfo() {
         ApiRequest apiRequest = new ApiRequest("/account.getProfileInfo", "GET", token);
         apiRequest.sendRequest();
         return apiRequest.getResponse();
     }
 
+    @Step("Задать инфо о профиле")
     private Response setProfileInfo() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("relation", "1");
         hashMap.put("home_town", "Москва");
         return request("/account.saveProfileInfo", hashMap);
     }
-
 
     public void getProfileInfoAndFill() {
         Response profileInfo = getProfileInfo();
@@ -75,6 +77,7 @@ public class TestEditProfile {
         Assert.assertEquals((int) profileInfo.getBody().jsonPath().get("response.relation"), 1);
     }
 
+    @Step("Загрузить фото")
     public void uploadPhoto() {
         Response uploadServer = getUploadServer();
         Assert.assertEquals(uploadServer.getStatusCode(), 200);
@@ -84,12 +87,14 @@ public class TestEditProfile {
         Assert.assertEquals(savePhoto.getStatusCode(), 200);
     }
 
+    @Step("Получить сервер загрузки фото")
     private Response getUploadServer() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("owner_id", "753224346");
         return request("/photos.getOwnerPhotoUploadServer", hashMap);
     }
 
+    @Step("Сохранить владельца фото")
     private Response saveOwnerPhoto() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("server", ContextHolder.getValue("server"));
@@ -98,6 +103,7 @@ public class TestEditProfile {
         return request("/photos.saveOwnerPhoto", hashMap);
     }
 
+    @Step("Удалить фото")
     private Response deletePhoto() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("owner_id", "753224346");
@@ -105,12 +111,14 @@ public class TestEditProfile {
         return request("/photos.delete", hashMap);
     }
 
+    @Step("Получить id профиля")
     private int getIdProfilePhoto() {
         ApiRequest apiRequest = new ApiRequest("/photos.getProfile", "GET", token);
         apiRequest.sendRequest();
         return apiRequest.getResponse().getBody().jsonPath().get("response.items[0].id");
     }
 
+    @Step("Установить инфо о профиле по умолчанию")
     private void setDefaultProfileInfo() {
         ApiRequest apiRequest = new ApiRequest("/account.saveProfileInfo", "GET", token);
         HashMap<String, String> hashMap = new HashMap<>();

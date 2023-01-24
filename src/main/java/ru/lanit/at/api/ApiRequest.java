@@ -7,7 +7,6 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.aeonbits.owner.ConfigFactory;
 import ru.lanit.at.api.listeners.RestAssuredCustomLogger;
-import ru.lanit.at.api.models.RequestModel;
 import ru.lanit.at.api.properties.RestConfigurations;
 import ru.lanit.at.utils.FileUtil;
 import ru.lanit.at.utils.JsonUtil;

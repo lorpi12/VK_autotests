@@ -1,6 +1,7 @@
 package VK.api;
 
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -42,13 +43,14 @@ public class TestChat {
         stepsWithCreateChat();
     }
 
-
+    @Step("Создать чат")
     private Response createChat() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("title", "Важно");
         return request("/messages.createChat", hashMap);
     }
 
+    @Step("Изменить название чата")
     private Response editChatTitle() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("title", "Ну очень важная беседа");
@@ -56,6 +58,7 @@ public class TestChat {
         return request("/messages.editChat", hashMap);
     }
 
+    @Step("Добавить участника чата")
     private Response addChatUser() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("chat_id", ContextHolder.getValue("chatId"));
@@ -63,6 +66,7 @@ public class TestChat {
         return request("/messages.addChatUser", hashMap);
     }
 
+    @Step("Отправить сообщение")
     private Response sendMessage(String message) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("chat_id", ContextHolder.getValue("chatId"));
@@ -72,6 +76,7 @@ public class TestChat {
         return request("/messages.send", hashMap);
     }
 
+    @Step("Изменить сообщение")
     private Response editMessage(String message) {
         HashMap<String, String> hashMap = new HashMap<>();
         int peer_id = Integer.parseInt(ContextHolder.getValue("chatId")) + 2000000000;
@@ -81,6 +86,7 @@ public class TestChat {
         return request("/messages.edit", hashMap);
     }
 
+    @Step("Закрепить сообщение")
     private Response pinMessage() {
         HashMap<String, String> hashMap = new HashMap<>();
         int peer_id = Integer.parseInt(ContextHolder.getValue("chatId")) + 2000000000;
@@ -89,6 +95,7 @@ public class TestChat {
         return request("/messages.pin", hashMap);
     }
 
+    @Step("Удалить чат")
     private Response deleteChat() {
         HashMap<String, String> hashMap = new HashMap<>();
         int peer_id = Integer.parseInt(ContextHolder.getValue("chatId")) + 2000000000;

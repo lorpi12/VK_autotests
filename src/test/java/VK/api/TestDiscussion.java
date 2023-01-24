@@ -1,6 +1,7 @@
 package VK.api;
 
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -42,6 +43,7 @@ public class TestDiscussion {
         stepsWithCreateGroup();
     }
 
+    @Step("Создать группу")
     private Response createGroup() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("title", "Группа");
@@ -49,6 +51,7 @@ public class TestDiscussion {
         return request("/groups.create", hashMap);
     }
 
+    @Step("Создать дискуссию")
     private Response createDiscussion() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("group_id", ContextHolder.getValue("groupId"));
@@ -57,6 +60,7 @@ public class TestDiscussion {
         return request("/board.addTopic", hashMap);
     }
 
+    @Step("Закрепить дискуссию")
     private Response fixDiscussion() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("group_id", ContextHolder.getValue("groupId"));
@@ -64,6 +68,7 @@ public class TestDiscussion {
         return request("/board.fixTopic", hashMap);
     }
 
+    @Step("Создать коммент")
     private Response createComment(String message) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("group_id", ContextHolder.getValue("groupId"));
@@ -72,6 +77,7 @@ public class TestDiscussion {
         return request("/board.createComment", hashMap);
     }
 
+    @Step("Изменить коммент")
     private Response editComment(String message, String commentId) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("group_id", ContextHolder.getValue("groupId"));
@@ -81,6 +87,7 @@ public class TestDiscussion {
         return request("/board.editComment", hashMap);
     }
 
+    @Step("Удалить коммент")
     private Response deleteComment(String commentId) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("group_id", ContextHolder.getValue("groupId"));
@@ -89,6 +96,7 @@ public class TestDiscussion {
         return request("/board.deleteComment", hashMap);
     }
 
+    @Step("Удалить группу")
     private Response deleteGroup() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("group_id", ContextHolder.getValue("groupId"));

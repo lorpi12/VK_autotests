@@ -45,7 +45,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
                 <configuration>
-
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
                     <systemPropertyVariables>
                         <base.dir>${project.basedir}/</base.dir>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
@@ -67,6 +69,7 @@
                 <version>${allure.maven.version}</version>
                 <configuration>
                     <reportDirectory>${project.build.directory}/allure-report</reportDirectory>
+                    <reportVersion>2.10.0</reportVersion>
                 </configuration>
             </plugin>
         </plugins>

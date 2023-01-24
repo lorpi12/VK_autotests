@@ -1,6 +1,7 @@
 package VK.api;
 
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -44,7 +45,7 @@ public class TestPhoto {
         stepsWithCreateAlbum();
     }
 
-
+    @Step("Создать приватный альбом")
     private Response createPrivateAlbum() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("title", "АльбомПриват");
@@ -53,12 +54,14 @@ public class TestPhoto {
         return request("/photos.createAlbum", hashMap);
     }
 
+    @Step("Получить сервер загрузки фото")
     private Response getUploadServer() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("album_id", ContextHolder.getValue("privateAlbumId"));
         return request("/photos.getUploadServer", hashMap);
     }
 
+    @Step("Сохранить фото")
     private Response savePhoto() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("album_id", ContextHolder.getValue("privateAlbumId"));
@@ -69,6 +72,7 @@ public class TestPhoto {
         return request("/photos.save", hashMap);
     }
 
+    @Step("Сделать фото обложкой альбома")
     private Response makeCoverPhoto() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("album_id", ContextHolder.getValue("privateAlbumId"));
@@ -76,6 +80,7 @@ public class TestPhoto {
         return request("/photos.makeCover", hashMap);
     }
 
+    @Step("Прокомментировать фото")
     private Response commentPhoto(String message) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("message", message);
@@ -83,6 +88,7 @@ public class TestPhoto {
         return request("/photos.createComment", hashMap);
     }
 
+    @Step("Отметить человека на фото")
     private Response setTagPhoto() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("user_id", "753224346");
@@ -94,6 +100,7 @@ public class TestPhoto {
         return request("/photos.putTag", hashMap);
     }
 
+    @Step("Создать публичный альбом")
     private Response createPublicAlbum() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("title", "АльбомПаблик");
@@ -102,6 +109,7 @@ public class TestPhoto {
         return request("/photos.createAlbum", hashMap);
     }
 
+    @Step("Перенести фото")
     private Response movePhoto() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("target_album_id", ContextHolder.getValue("publicAlbumId"));
@@ -109,6 +117,7 @@ public class TestPhoto {
         return request("/photos.move", hashMap);
     }
 
+    @Step("Удалить альбом")
     private Response deleteAlbum(String albumId) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("album_id", ContextHolder.getValue(albumId));
